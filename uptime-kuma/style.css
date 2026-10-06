@@ -1,0 +1,760 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap");
+
+:root {
+    --abyss-accent: 245, 245, 247;
+    --abyss-fg: 245, 245, 247;
+    --abyss-glass-tint: 38, 38, 40;
+    --abyss-radius: 24px;
+    --abyss-glass-blur: 18px;
+    --abyss-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --bs-primary: #3dd68c;
+    --bs-danger: #ff5c7c;
+    --bs-warning: #f0b429;
+    --maintenance: #8eafff;
+    --beat-empty-color: #2a2a2e;
+}
+
+html {
+    color-scheme: dark;
+    scrollbar-color: rgba(var(--abyss-fg), 0.28) transparent;
+}
+
+html,
+body,
+body.dark {
+    margin: 0 !important;
+    min-height: 100%;
+    background-color: #050506 !important;
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.028) 0.55px, transparent 0.55px),
+        radial-gradient(1100px 540px at 8% -10%, rgba(var(--abyss-accent), 0.07), transparent 56%),
+        radial-gradient(820px 460px at 108% -8%, rgba(var(--abyss-accent), 0.05), transparent 52%) !important;
+    background-size: 3px 3px, auto, auto !important;
+    color: rgb(var(--abyss-fg)) !important;
+    font-family: "Outfit", "Google Sans", "Avenir Next", "Segoe UI", sans-serif !important;
+    font-weight: 400;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+::selection {
+    background: rgba(var(--abyss-accent), 0.28);
+    color: #fff;
+}
+
+body {
+    padding: 12px 0 28px !important;
+}
+
+.container {
+    width: min(940px, calc(100% - 8px)) !important;
+    max-width: 940px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+}
+
+h1,
+.title-flex {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin: 18px 0 18px !important;
+    font-size: clamp(1.7rem, 2.4vw, 2.15rem) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.05 !important;
+    color: rgb(var(--abyss-fg)) !important;
+}
+
+.logo-wrapper {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px;
+    padding: 0 !important;
+    border-radius: 16px;
+    overflow: hidden;
+    flex: none;
+    line-height: 0;
+    background: rgba(var(--abyss-glass-tint), 0.9);
+    border: 1px solid rgba(var(--abyss-accent), 0.16);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.logo-wrapper .logo,
+img.logo,
+.logo.me-2 {
+    display: block !important;
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    border-radius: 8px !important;
+}
+
+.main .btn,
+.main a.btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin: 0 8px 12px 0 !important;
+    padding: 0.48rem 0.95rem !important;
+    border-radius: 999px !important;
+    border: 1px solid transparent !important;
+    border-bottom: 1px solid transparent !important;
+    background-color: rgb(var(--abyss-accent)) !important;
+    background-image: none !important;
+    color: #121212 !important;
+    font-weight: 600 !important;
+    font-size: 0.92rem !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+}
+
+.main .btn:hover,
+.main .btn:focus,
+.main .btn:active,
+.main a.btn:hover,
+.main a.btn:focus {
+    background-color: rgb(var(--abyss-accent)) !important;
+    color: #121212 !important;
+    filter: brightness(0.94);
+    text-decoration: none !important;
+}
+
+.main .btn svg,
+.main .btn .svg-inline--fa {
+    width: 0.95em;
+    height: 0.95em;
+}
+
+/* Description sits as a direct .alert-heading under .main. Footer uses the same
+   class, nested, and is styled separately. */
+.main > .alert-heading,
+.main > .alert-heading p,
+.main > .description,
+.main > .description p {
+    margin: 0 0 1.35rem !important;
+    padding: 0 2px !important;
+    background: transparent !important;
+    border: 0 !important;
+    color: rgba(var(--abyss-fg), 0.62) !important;
+    font-size: 0.98rem !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+    letter-spacing: -0.011em !important;
+    max-width: 62ch;
+}
+
+.shadow-box {
+    background: rgba(var(--abyss-glass-tint), 0.62) !important;
+    -webkit-backdrop-filter: blur(var(--abyss-glass-blur)) saturate(1.35);
+    backdrop-filter: blur(var(--abyss-glass-blur)) saturate(1.35);
+    border: 1px solid rgba(var(--abyss-accent), 0.14) !important;
+    border-radius: var(--abyss-radius) !important;
+    box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    color: rgb(var(--abyss-fg)) !important;
+}
+
+.dark .shadow-box,
+body.dark .shadow-box {
+    background-color: rgba(var(--abyss-glass-tint), 0.62) !important;
+}
+
+.overall-status {
+    padding: 18px 20px !important;
+    margin: 0 0 14px !important;
+    font-size: 1.28rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.25 !important;
+}
+
+.overall-status > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.overall-status svg,
+.overall-status .svg-inline--fa {
+    width: 1.35rem;
+    height: 1.35rem;
+    flex: none;
+}
+
+.overall-status .ok {
+    color: var(--bs-primary) !important;
+}
+
+.overall-status .warning {
+    color: var(--bs-warning) !important;
+}
+
+.overall-status .danger {
+    color: var(--bs-danger) !important;
+}
+
+.overall-status .status-maintenance {
+    color: var(--maintenance) !important;
+}
+
+.overall-status:has(.ok) {
+    box-shadow:
+        inset 3px 0 0 var(--bs-primary),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.overall-status:has(.warning) {
+    box-shadow:
+        inset 3px 0 0 var(--bs-warning),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.overall-status:has(.danger) {
+    box-shadow:
+        inset 3px 0 0 var(--bs-danger),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.overall-status:has(.status-maintenance) {
+    box-shadow:
+        inset 3px 0 0 var(--maintenance),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.incident,
+.shadow-box.bg-maintenance {
+    padding: 16px 18px !important;
+    margin-bottom: 14px !important;
+    color: rgb(var(--abyss-fg)) !important;
+}
+
+.incident .alert-heading,
+.shadow-box.bg-maintenance .alert-heading {
+    margin: 0 0 6px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    color: rgb(var(--abyss-fg)) !important;
+    background: transparent !important;
+}
+
+.incident .content,
+.incident .content p,
+.shadow-box.bg-maintenance .content,
+.shadow-box.bg-maintenance .content p {
+    color: rgba(var(--abyss-fg), 0.74) !important;
+    font-size: 0.92rem !important;
+    line-height: 1.5 !important;
+}
+
+.incident .date,
+.shadow-box.bg-maintenance .timeslot,
+.shadow-box.bg-maintenance .content + div {
+    margin-top: 8px !important;
+    color: rgba(var(--abyss-fg), 0.46) !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.02em;
+}
+
+.incident.bg-danger {
+    border-color: color-mix(in srgb, var(--bs-danger) 48%, transparent) !important;
+    box-shadow:
+        inset 3px 0 0 var(--bs-danger),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.incident.bg-warning {
+    border-color: color-mix(in srgb, var(--bs-warning) 48%, transparent) !important;
+    box-shadow:
+        inset 3px 0 0 var(--bs-warning),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.incident.bg-primary,
+.incident.bg-info,
+.incident.bg-light,
+.incident.bg-dark,
+.shadow-box.bg-maintenance {
+    border-color: color-mix(in srgb, var(--maintenance) 50%, transparent) !important;
+    box-shadow:
+        inset 3px 0 0 var(--maintenance),
+        0 16px 40px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+h2.group-title,
+.group-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 0 10px 2px !important;
+    padding: 0 !important;
+    font-size: 1.22rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.2 !important;
+    color: rgb(var(--abyss-fg)) !important;
+}
+
+.group-title .collapse-toggle,
+.group-title .chevron {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    color: rgba(var(--abyss-fg), 0.72) !important;
+}
+
+.group-title .chevron {
+    width: 0.78em;
+    height: 0.78em;
+    transition: transform 0.25s var(--abyss-ease);
+}
+
+.group-title .chevron.collapsed {
+    transform: rotate(-90deg);
+}
+
+.group-title span {
+    min-width: 0 !important;
+}
+
+.main > .mb-5 {
+    margin-bottom: 1.55rem !important;
+}
+
+.shadow-box.monitor-list {
+    padding: 6px !important;
+    overflow: hidden;
+}
+
+.monitor-list .monitor-list,
+.shadow-box.monitor-list > .monitor-list {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    min-height: 0 !important;
+}
+
+.monitor-list .item {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: calc(var(--abyss-radius) - 10px) !important;
+    margin: 0 !important;
+    padding: 12px 14px !important;
+    transition: background-color 0.35s var(--abyss-ease);
+}
+
+.monitor-list .item + .item {
+    box-shadow: inset 0 1px 0 rgba(var(--abyss-fg), 0.07);
+}
+
+.monitor-list .item:hover {
+    background: rgba(var(--abyss-accent), 0.06) !important;
+}
+
+.monitor-list .item:has(.info .badge.bg-danger) {
+    background: color-mix(in srgb, var(--bs-danger) 8%, transparent) !important;
+}
+
+.monitor-list .item:has(.info .badge.bg-warning) {
+    background: color-mix(in srgb, var(--bs-warning) 7%, transparent) !important;
+}
+
+.monitor-list .item > .row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px;
+    margin: 0 !important;
+}
+
+.monitor-list .item > .row > [class*="col-"],
+.monitor-list .item > .row > .small-padding,
+.monitor-list .item > .row > .col-9,
+.monitor-list .item > .row > .col-3,
+.monitor-list .item > .row > .col-6,
+.monitor-list .item > .row > .col-xl-6,
+.monitor-list .item > .row > .col-md-8,
+.monitor-list .item > .row > .col-md-4 {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    min-width: 0;
+}
+
+.small-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.monitor-list .info {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px;
+    min-width: 0;
+    width: 100% !important;
+}
+
+.monitor-list .info .action {
+    order: -2;
+}
+
+.monitor-list .info .item-name {
+    order: -1;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: rgb(var(--abyss-fg)) !important;
+    font-size: 1.02rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.25 !important;
+    text-decoration: none !important;
+}
+
+.monitor-list .item:hover .item-name {
+    color: rgb(var(--abyss-accent)) !important;
+}
+
+.extra-info,
+.extra-info > div {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.extra-info {
+    margin: 7px 0 0 !important;
+}
+
+.badge {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px !important;
+    font-variant-numeric: tabular-nums;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
+
+.info .badge {
+    flex: none;
+    margin-left: auto !important;
+    min-width: 3.5rem;
+    padding: 3px 9px !important;
+    font-size: 0.74rem !important;
+    font-weight: 650 !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1.35 !important;
+}
+
+.info .badge.bg-primary,
+.info .badge.bg-success {
+    background: color-mix(in srgb, var(--bs-primary) 16%, transparent) !important;
+    color: color-mix(in srgb, var(--bs-primary) 55%, white) !important;
+    border: 1px solid color-mix(in srgb, var(--bs-primary) 40%, transparent) !important;
+}
+
+.info .badge.bg-warning {
+    background: color-mix(in srgb, var(--bs-warning) 16%, transparent) !important;
+    color: color-mix(in srgb, var(--bs-warning) 70%, white) !important;
+    border: 1px solid color-mix(in srgb, var(--bs-warning) 42%, transparent) !important;
+}
+
+.info .badge.bg-danger {
+    background: color-mix(in srgb, var(--bs-danger) 16%, transparent) !important;
+    color: color-mix(in srgb, var(--bs-danger) 62%, white) !important;
+    border: 1px solid color-mix(in srgb, var(--bs-danger) 45%, transparent) !important;
+}
+
+.info .badge.bg-secondary,
+.info .badge.bg-dark,
+.info .badge.bg-maintenance {
+    background: rgba(var(--abyss-fg), 0.08) !important;
+    color: rgba(var(--abyss-fg), 0.7) !important;
+    border: 1px solid rgba(var(--abyss-fg), 0.14) !important;
+}
+
+.extra-info .badge,
+.extra-info .tag,
+.tag-wrapper,
+.tag {
+    background: rgba(var(--abyss-fg), 0.06) !important;
+    color: rgba(var(--abyss-fg), 0.7) !important;
+    border: 1px solid rgba(var(--abyss-fg), 0.12) !important;
+    padding: 1px 8px !important;
+    font-size: 0.68rem !important;
+    font-weight: 520 !important;
+    letter-spacing: 0.03em !important;
+    line-height: 1.45 !important;
+    text-transform: lowercase;
+}
+
+/* DOM heartbeat bars (older Kuma) and the canvas bar (current Kuma). */
+.hp-bar-big {
+    --beat-empty-color: #2a2a2e;
+    background: transparent !important;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.hp-bar-big:has(.beat-hover-area) {
+    display: flex !important;
+    align-items: flex-end;
+    gap: 3px;
+    height: 28px;
+    width: 100%;
+}
+
+.beat-hover-area {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.beat,
+.beat.up {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: var(--bs-primary) !important;
+}
+
+.beat.down {
+    background-color: var(--bs-danger) !important;
+}
+
+.beat.pending {
+    background-color: var(--bs-warning) !important;
+}
+
+.beat.maintenance {
+    background-color: var(--maintenance) !important;
+}
+
+.beat.empty {
+    background-color: var(--beat-empty-color) !important;
+}
+
+.wrap {
+    width: 100% !important;
+}
+
+.hp-bar-big:has(.heartbeat-canvas),
+.hp-bar-big:has(canvas) {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+.heartbeat-canvas {
+    display: block;
+    width: 100% !important;
+    height: 28px !important;
+    max-width: none !important;
+    border-radius: 6px;
+}
+
+.word,
+.wrap > .d-flex,
+.hp-bar-big + .d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    margin-top: 6px !important;
+    margin-left: 0 !important;
+    color: rgba(var(--abyss-fg), 0.4) !important;
+    font-size: 0.68rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.03em;
+}
+
+.connecting-line {
+    flex: 1 1 auto;
+    height: 1px;
+    margin: 0 2px !important;
+    background: rgba(var(--abyss-fg), 0.16) !important;
+}
+
+footer,
+footer.mt-5 {
+    margin-top: 0.6rem !important;
+    margin-bottom: 0.5rem !important;
+    padding-top: 4px !important;
+    text-align: center !important;
+    background: transparent !important;
+    border: 0 !important;
+}
+
+footer .alert-heading,
+footer .alert-heading p,
+.custom-footer-text,
+.custom-footer-text p {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: rgba(var(--abyss-fg), 0.55) !important;
+    font-size: 0.92rem !important;
+    font-weight: 520 !important;
+    text-align: center !important;
+}
+
+footer a,
+.custom-footer-text a,
+.main > .alert-heading a,
+.incident .content a {
+    color: rgb(var(--abyss-accent)) !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid rgba(var(--abyss-accent), 0.35);
+    transition: border-color 0.2s var(--abyss-ease);
+}
+
+footer a:hover,
+.custom-footer-text a:hover,
+.main > .alert-heading a:hover,
+.incident .content a:hover {
+    border-bottom-color: rgb(var(--abyss-accent));
+}
+
+.refresh-info,
+[data-testid="powered-by"] {
+    margin-top: 8px !important;
+    color: rgba(var(--abyss-fg), 0.36) !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.04em;
+    text-align: center !important;
+}
+
+[data-testid="powered-by"] a {
+    color: rgba(var(--abyss-fg), 0.5) !important;
+    border-bottom-color: rgba(var(--abyss-fg), 0.2);
+}
+
+.tooltip-inner,
+.tooltip-content {
+    background: rgba(16, 16, 18, 0.92) !important;
+    color: rgb(var(--abyss-fg)) !important;
+    border: 1px solid rgba(var(--abyss-accent), 0.16) !important;
+    border-radius: 12px !important;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+a:focus-visible,
+button:focus-visible,
+.heartbeat-canvas:focus-visible {
+    outline: 2px solid rgba(var(--abyss-accent), 0.75);
+    outline-offset: 3px;
+}
+
+/* Don't animate the monitor card. Kuma collapses it with <transition name="slide-fade-up">
+   and waits for the longest animation on that node. abyss-rise never re-fires
+   animationend, so the group sat there for the fallback timeout. */
+.shadow-box:not(.monitor-list) {
+    animation: abyss-rise 0.45s var(--abyss-ease) both;
+}
+
+.shadow-box.monitor-list {
+    animation: none !important;
+}
+
+.slide-fade-up-enter-active,
+.slide-fade-up-leave-active {
+    animation: none !important;
+    transition: opacity 0.16s ease, transform 0.16s ease !important;
+}
+
+.slide-fade-up-enter-from,
+.slide-fade-up-leave-to {
+    opacity: 0 !important;
+    transform: translateY(-8px) !important;
+}
+
+@keyframes abyss-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 720px) {
+    body {
+        padding-top: 4px !important;
+    }
+
+    h1,
+    .title-flex {
+        font-size: 1.5rem !important;
+        gap: 12px !important;
+    }
+
+    .overall-status {
+        font-size: 1.05rem !important;
+        padding: 14px 14px !important;
+    }
+
+    .monitor-list .item > .row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px;
+    }
+
+    .monitor-list .item > .row > .col-6,
+    .monitor-list .item > .row > .col-6:first-child,
+    .monitor-list .item > .row > .col-6:last-child,
+    .monitor-list .item > .row > [class*="col-"] {
+        flex: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .group-title,
+    h2.group-title {
+        font-size: 1.08rem !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

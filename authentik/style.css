@@ -1,0 +1,4004 @@
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/figtree@5.2.8/latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/figtree@5.2.8/latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/figtree@5.2.8/latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Figtree";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/figtree@5.2.8/latin-400-italic.woff2") format("woff2");
+}
+
+:root {
+  --abyss-accent: 245, 245, 247;
+  --abyss-indicator: 55, 55, 55;
+  --abyss-glass-tint: 42, 42, 42;
+  --abyss-void: 10, 10, 10;
+  --abyss-raised: 20, 20, 20;
+  --abyss-ink: 18, 18, 18;
+  --abyss-muted: 168, 168, 176;
+  --abyss-danger: 196, 92, 92;
+  --abyss-ok: 125, 154, 120;
+
+  --abyss-radius: 12px;
+  --abyss-radius-card: 24px;
+  --abyss-radius-pill: 999px;
+
+  --abyss-glass-blur: 18px;
+  --abyss-backdrop-blur: 28px;
+  --abyss-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --abyss-ease-snappy: cubic-bezier(0.4, 0, 0.2, 1);
+  --abyss-font: "Figtree", "Google Sans", "Segoe UI", system-ui, sans-serif;
+
+  --abyss-hairline: 1px solid rgba(var(--abyss-accent), 0.18);
+  --abyss-hairline-strong: 1px solid rgba(var(--abyss-accent), 0.28);
+  --abyss-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --abyss-glass: rgba(var(--abyss-glass-tint), 0.72);
+  --abyss-glass-hover: rgba(var(--abyss-glass-tint), 0.88);
+
+  --abyss-wallpaper: url("/static/dist/assets/icons/rafa-connect/background.jpg");
+}
+
+/* -----------------------------------------------------------------------------
+   2. Isolation — only paint when a user-facing host is on the page.
+   Admin lives on ak-interface-admin and is never selected here.
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor),
+html:has(ak-interface-user),
+body:has(ak-flow-executor),
+body:has(ak-interface-user) {
+  color-scheme: dark;
+  background-color: rgb(var(--abyss-void));
+  font-family: var(--abyss-font);
+  -webkit-font-smoothing: antialiased;
+
+  /* Force Abyss colors even when the brand theme is Automatic / light. */
+  --pf-global--FontFamily--sans-serif: var(--abyss-font);
+  --pf-global--BackgroundColor--100: rgb(var(--abyss-raised));
+  --pf-global--BackgroundColor--150: rgb(var(--abyss-glass-tint));
+  --pf-global--BackgroundColor--200: rgb(var(--abyss-void));
+  --pf-global--BackgroundColor--light-100: rgb(var(--abyss-raised));
+  --pf-global--BackgroundColor--dark-100: rgb(var(--abyss-raised));
+  --pf-global--Color--100: rgb(var(--abyss-accent));
+  --pf-global--Color--200: rgb(var(--abyss-muted));
+  --pf-global--Color--dark-100: rgb(var(--abyss-accent));
+  --pf-global--Color--light-100: rgb(var(--abyss-accent));
+  --pf-global--primary-color--100: rgb(var(--abyss-accent));
+  --pf-global--primary-color--200: rgba(var(--abyss-accent), 0.72);
+  --pf-global--link--Color: rgb(var(--abyss-accent));
+  --pf-global--link--Color--hover: #ffffff;
+  --pf-global--BorderColor--100: rgba(var(--abyss-accent), 0.16);
+  --ak-c-login__main--BackgroundColor: var(--abyss-glass);
+  --ak-c-login__main--Color: rgb(var(--abyss-accent));
+  --ak-c-login__main--BoxShadow: var(--abyss-shadow);
+  --ak-c-login__main-ColumnWidth: min(26.5rem, calc(100vw - 2rem));
+  --ak-c-login--MaxWidth: 26.5rem;
+  --ak-c-login--BackgroundColorOverlay: rgba(var(--abyss-void), 0.28);
+  --ak-c-login__main--brand-PaddingMin: 2.25rem;
+  --ak-c-login__main--brand-PaddingIdeal: 2.25rem;
+  --ak-c-login__main--brand-PaddingMax: 2.75rem;
+}
+
+/* User dashboard never receives authentik's flow wallpaper variable.
+   Inherit ours into every user-UI shadow so ::part and :host can paint it. */
+html:has(ak-interface-user) {
+  --ak-global--background-image: var(--abyss-wallpaper);
+  --ak-flow-background: var(--abyss-wallpaper);
+  --pf-c-notification-badge__count--BackgroundColor: rgb(var(--abyss-raised));
+  --pf-c-notification-badge__count--Color: rgb(var(--abyss-accent));
+  --pf-c-notification-badge--after--BackgroundColor: transparent;
+  --pf-c-notification-badge--after--BorderColor: transparent;
+  --pf-c-notification-badge--before--BackgroundColor: transparent;
+  --pf-c-notification-drawer--BackgroundColor: rgba(var(--abyss-glass-tint), 0.92);
+  --pf-c-notification-drawer__header--BackgroundColor: rgba(var(--abyss-glass-tint), 0.55);
+  --pf-c-notification-drawer__list-item--BorderBottomColor: rgba(var(--abyss-accent), 0.1);
+  --ak-dark-background: rgb(var(--abyss-raised));
+  --ak-dark-background-lighter: rgba(var(--abyss-glass-tint), 0.88);
+  --ak-dark-foreground: rgb(var(--abyss-accent));
+}
+
+body:has(ak-flow-executor),
+body:has(ak-interface-user) {
+  background-image: var(--ak-global--background-image, var(--ak-flow-background, none));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Dim the wallpaper so Abyss surfaces stay readable (Zitadel-quiet, not neon). */
+body:has(ak-flow-executor)::before,
+body:has(ak-interface-user)::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.62) 55%, rgba(0, 0, 0, 0.82)),
+    linear-gradient(180deg, rgba(var(--abyss-void), 0.35), rgba(var(--abyss-void), 0.72));
+}
+
+
+/* Keep flow chrome above the wallpaper dimmer. */
+html:has(ak-flow-executor) ak-flow-executor,
+html:has(ak-flow-executor) .pf-c-login,
+html:has(ak-interface-user) ak-interface-user {
+  position: relative;
+  z-index: 1;
+}
+
+html:has(ak-flow-executor) ak-flow-executor {
+  display: flex;
+  min-width: 100%;
+  min-height: 100dvh;
+  color: rgb(var(--abyss-accent));
+}
+
+html:has(ak-flow-executor) ak-stage-identification,
+html:has(ak-flow-executor) ak-flow-card,
+html:has(ak-flow-executor) ak-flow-input-password,
+html:has(ak-flow-executor) ak-divider,
+html:has(ak-interface-user) ak-interface-user,
+html:has(ak-interface-user) ak-library-impl,
+html:has(ak-interface-user) ak-user-settings {
+  display: block;
+}
+
+/* -----------------------------------------------------------------------------
+   2b. Document layer — these rules are what actually paint on 2026.8.
+       html:has(...) + descendants beats ShadyDOM flattening. Do not wrap
+       them in :host(); a mixed `:host(), .foo` list is dropped entirely.
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) .pf-c-login {
+  background: transparent;
+  color: rgb(var(--abyss-accent));
+}
+
+html:has(ak-flow-executor) .pf-c-login__main {
+  background: var(--abyss-glass) !important;
+  background-image: none !important;
+  backdrop-filter: blur(var(--abyss-backdrop-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--abyss-backdrop-blur)) saturate(140%);
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  box-shadow: var(--abyss-shadow) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  /* visible: Turnstile / WebAuthn dialogs grow the iframe; hidden clips them */
+  overflow: visible;
+  isolation: isolate;
+}
+
+html:has(ak-flow-executor) .pf-c-login__main-header:not(.pf-c-brand),
+html:has(ak-flow-executor) .pf-c-login__main-body,
+html:has(ak-flow-executor) .pf-c-login__main-footer {
+  background: transparent !important;
+}
+
+/* Title header inside the card — not the brand/logo row. */
+html:has(ak-flow-executor) .pf-c-login__main-header:not(.pf-c-brand) {
+  padding: 0.35rem 1.75rem 0.15rem !important;
+}
+
+/*
+ * Brand/logo row. authentik's own rule is
+ * `.pf-c-login__main-header.pf-c-brand.ak-flow-executor` (3 classes) with
+ * padding-inline: spacer/4 (~4–8px) and a start padding that subtracts the
+ * footer token — that is why the logo sits flush against the card edge.
+ * Beat that selector, then add real padding.
+ */
+html:has(ak-flow-executor) .pf-c-login__main-header.pf-c-brand,
+html:has(ak-flow-executor) .pf-c-login__main-header.pf-c-brand.ak-flow-executor {
+  padding-block-start: 2.6rem !important;
+  padding-block-end: 1.15rem !important;
+  padding-inline: 2.25rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: transparent !important;
+}
+
+html:has(ak-flow-executor) .pf-c-login__main-body {
+  padding: 0.5rem 1.75rem 0.25rem !important;
+}
+
+html:has(ak-flow-executor) .pf-c-login__main-footer {
+  padding: 0.75rem 1.75rem 1.5rem !important;
+  border-top: 0 !important;
+}
+
+html:has(ak-flow-executor) .branding-logo,
+html:has(ak-flow-executor) .pf-c-login__main-header.pf-c-brand .branding-logo {
+  max-height: 4rem !important;
+  max-width: min(22rem, 90%) !important;
+  width: auto;
+  height: auto;
+  margin-inline: auto;
+  filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.45));
+}
+
+html:has(ak-flow-executor) .branding-logo:not(img) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+html:has(ak-flow-executor) img.branding-logo,
+html:has(ak-flow-executor) .pf-c-login__main-header.pf-c-brand img,
+html:has(ak-flow-executor) .pf-c-brand img {
+  display: block;
+  max-height: 4rem !important;
+  max-width: min(22rem, 90%) !important;
+  width: auto;
+  height: auto;
+}
+
+html:has(ak-flow-executor) .pf-c-title,
+html:has(ak-flow-executor) ak-flow-card h1,
+html:has(ak-flow-executor) .pf-c-login__main-header h1 {
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.2 !important;
+  color: rgb(var(--abyss-accent)) !important;
+  text-shadow: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-form__label,
+html:has(ak-flow-executor) .pf-c-form__label-text {
+  color: rgba(var(--abyss-accent), 0.72) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-form-control,
+html:has(ak-flow-executor) input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(.faux-input):not([name="captchaToken"]) {
+  background: rgba(var(--abyss-void), 0.55) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  min-height: 2.75rem !important;
+  padding: 0.55rem 0.85rem !important;
+  box-shadow: none !important;
+  font-family: var(--abyss-font) !important;
+  font-size: 0.9375rem !important;
+}
+
+html:has(ak-flow-executor) .pf-c-form-control:focus,
+html:has(ak-flow-executor) input:not([type="checkbox"]):not([type="radio"]):not(.faux-input):focus {
+  outline: none !important;
+  border-color: rgba(var(--abyss-accent), 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(var(--abyss-accent), 0.12) !important;
+  background: rgba(var(--abyss-void), 0.72) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-form-control::placeholder {
+  color: rgba(var(--abyss-accent), 0.38) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-primary {
+  background: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  min-height: 2.75rem !important;
+  padding: 0.65rem 1.15rem !important;
+  box-shadow: 0 0 24px 2px rgba(var(--abyss-accent), 0.12) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-primary:hover {
+  background: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary {
+  background: rgba(var(--abyss-accent), 0.06) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  min-height: 2.75rem !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary:hover,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary:hover {
+  background: rgba(var(--abyss-accent), 0.14) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border-color: rgba(var(--abyss-accent), 0.32) !important;
+  text-decoration: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-login__footer {
+  color: rgba(var(--abyss-accent), 0.55) !important;
+  background: transparent !important;
+  font-size: 0.75rem !important;
+}
+
+html:has(ak-flow-executor) .pf-c-login__footer a,
+html:has(ak-flow-executor) .pf-c-login__main-footer a:not(.pf-c-button) {
+  color: rgba(var(--abyss-accent), 0.78) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+html:has(ak-flow-executor) .pf-c-login__main-footer a:not(.pf-c-button):hover {
+  color: rgb(var(--abyss-accent)) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+html:has(ak-flow-executor) ak-locale-select,
+html:has(ak-flow-executor) [part="locale-select"] {
+  color: rgba(var(--abyss-accent), 0.78) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+}
+
+html:has(ak-flow-executor) ak-locale-select select,
+html:has(ak-flow-executor) [part="locale-select"] select,
+html:has(ak-flow-executor) [part="select"] {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0.3rem 1.35rem 0.3rem 0.15rem !important;
+}
+
+/* Hide the "Log in to continue to <application>" line on identification. */
+form.pf-c-form.ak-stage-identification p,
+html:has(ak-flow-executor) ak-stage-identification form.pf-c-form > p,
+:host(ak-stage-identification) form.pf-c-form p {
+  display: none;
+}
+
+@media (max-width: 35rem) {
+  html:has(ak-flow-executor) .pf-c-login__main {
+    border-radius: 18px !important;
+  }
+  html:has(ak-flow-executor) .pf-c-login__main-header:not(.pf-c-brand),
+  html:has(ak-flow-executor) .pf-c-login__main-body,
+  html:has(ak-flow-executor) .pf-c-login__main-footer {
+    padding-inline: 1.15rem !important;
+  }
+  html:has(ak-flow-executor) .pf-c-login__main-header.pf-c-brand {
+    padding-inline: 1.35rem !important;
+    padding-block-start: 1.85rem !important;
+    padding-block-end: 0.85rem !important;
+  }
+}
+
+/* Never style skip-to-content. */
+
+/* -----------------------------------------------------------------------------
+   3. Shared tokens on flow/user hosts (admin is never selected).
+   ----------------------------------------------------------------------------- */
+
+.pf-c-login,
+ak-flow-executor,
+ak-flow-card,
+ak-interface-user,
+ak-library,
+ak-library-impl,
+ak-locale-select {
+  --abyss-font: "Figtree", "Google Sans", "Segoe UI", system-ui, sans-serif;
+  font-family: var(--abyss-font);
+  color-scheme: dark;
+
+  /* authentik layout knobs — prefer these over fighting the grid */
+  --ak-c-login__main-ColumnWidth: min(26.5rem, calc(100vw - 2rem));
+  --ak-c-login--MaxWidth: 26.5rem;
+  --ak-c-login__main--BackgroundColor: var(--abyss-glass);
+  --ak-c-login__main--BoxShadow: var(--abyss-shadow);
+  --ak-c-login--BackgroundColorOverlay: rgba(var(--abyss-void), 0.28);
+
+  /* PatternFly color aliases, scoped to these hosts only */
+  --pf-global--FontFamily--sans-serif: var(--abyss-font);
+  --pf-global--BackgroundColor--100: rgb(var(--abyss-raised));
+  --pf-global--BackgroundColor--150: rgb(var(--abyss-glass-tint));
+  --pf-global--BackgroundColor--200: rgb(var(--abyss-void));
+  --pf-global--Color--100: rgb(var(--abyss-accent));
+  --pf-global--Color--200: rgb(var(--abyss-muted));
+  --pf-global--primary-color--100: rgb(var(--abyss-accent));
+  --pf-global--primary-color--200: rgba(var(--abyss-accent), 0.72);
+  --pf-global--link--Color: rgb(var(--abyss-accent));
+  --pf-global--link--Color--hover: #ffffff;
+  --pf-global--BorderColor--100: rgba(var(--abyss-accent), 0.16);
+  --pf-c-page--BackgroundColor: transparent;
+  --pf-c-page__main-section--BackgroundColor: transparent;
+  --pf-c-page__header--BackgroundColor: transparent;
+}
+
+/* -----------------------------------------------------------------------------
+   4. Flow executor — keep authentik's grid. Restyle the card only.
+   ----------------------------------------------------------------------------- */
+
+.pf-c-login,
+ak-flow-executor {
+  min-height: 100dvh;
+  color: rgb(var(--abyss-accent));
+}
+
+.pf-c-login::before,
+ak-flow-executor::before {
+  background-color: transparent !important;
+}
+
+.pf-c-login .pf-c-login,
+ak-flow-executor .pf-c-login,
+.pf-c-login {
+  background: transparent;
+  color: rgb(var(--abyss-accent));
+}
+
+.pf-c-login .pf-c-login__main,
+ak-flow-executor .pf-c-login__main {
+  background: var(--abyss-glass) !important;
+  background-image: none !important;
+  backdrop-filter: blur(var(--abyss-backdrop-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--abyss-backdrop-blur)) saturate(140%);
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  box-shadow: var(--abyss-shadow) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.pf-c-login .pf-c-login__main-header:not(.pf-c-brand),
+ak-flow-executor .pf-c-login__main-header:not(.pf-c-brand),
+ak-flow-card .pf-c-login__main-header {
+  padding: 0.35rem 1.75rem 0.15rem !important;
+  background: transparent !important;
+}
+
+.pf-c-login .pf-c-login__main-header.pf-c-brand,
+ak-flow-executor .pf-c-login__main-header.pf-c-brand,
+.pf-c-login__main-header.pf-c-brand.ak-flow-executor {
+  padding-block-start: 2.6rem !important;
+  padding-block-end: 1.15rem !important;
+  padding-inline: 2.25rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background: transparent !important;
+}
+
+.pf-c-login .pf-c-brand,
+ak-flow-executor .pf-c-brand,
+.pf-c-login .branding-logo,
+ak-flow-executor .branding-logo {
+  max-height: 4rem;
+  max-width: min(22rem, 90%);
+  width: auto;
+  height: auto;
+  margin-inline: auto;
+  filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.45));
+}
+
+.pf-c-login .pf-c-login__main-header .pf-c-brand img,
+ak-flow-executor .pf-c-brand img,
+.pf-c-login img.branding-logo,
+ak-flow-executor img.branding-logo {
+  display: block;
+  max-height: 4rem;
+  max-width: min(22rem, 90%);
+  width: auto;
+  height: auto;
+}
+
+.pf-c-login .pf-c-login__main-body,
+ak-flow-executor .pf-c-login__main-body,
+ak-flow-card .pf-c-login__main-body {
+  padding: 0.5rem 1.75rem 0.25rem !important;
+  background: transparent !important;
+}
+
+.pf-c-login .pf-c-login__main-footer,
+ak-flow-executor .pf-c-login__main-footer,
+ak-flow-card .pf-c-login__main-footer {
+  padding: 0.75rem 1.75rem 1.5rem !important;
+  background: transparent !important;
+  border-top: 0 !important;
+}
+
+.pf-c-login .pf-c-login__footer,
+ak-flow-executor .pf-c-login__footer {
+  color: rgba(var(--abyss-accent), 0.55) !important;
+  background: transparent !important;
+  font-size: 0.75rem !important;
+}
+
+.pf-c-login .pf-c-login__footer a,
+ak-flow-executor .pf-c-login__footer a {
+  color: rgba(var(--abyss-accent), 0.7) !important;
+  text-decoration: none !important;
+}
+
+.pf-c-login .pf-c-login__footer a:hover,
+ak-flow-executor .pf-c-login__footer a:hover {
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+/* Locale — quiet, Zitadel-like, not a chrome blob */
+.pf-c-login [part="locale-select"],
+ak-flow-executor [part="locale-select"],
+ak-locale-select {
+  color: rgba(var(--abyss-accent), 0.78) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+}
+
+ak-locale-select select,
+.pf-c-login [part="locale-select"] select,
+ak-flow-executor [part="select"] {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0.3rem 1.35rem 0.3rem 0.15rem !important;
+}
+
+/* -----------------------------------------------------------------------------
+   5. Type — Figtree (Google Sans-adjacent), Zitadel hierarchy
+   ----------------------------------------------------------------------------- */
+
+:is(
+  .pf-c-login,
+  ak-flow-executor,
+  ak-flow-card,
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-authenticator-static,
+  ak-stage-authenticator-webauthn,
+  ak-stage-authenticator-sms,
+  ak-stage-authenticator-email,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-stage-email,
+  ak-stage-captcha,
+  ak-stage-dummy,
+  ak-stage-access-denied,
+  ak-form-element-horizontal,
+  ak-interface-user,
+  ak-library-impl,
+  ak-user-settings,
+  ak-user-settings-page
+) {
+  font-family: var(--abyss-font) !important;
+  color: rgb(var(--abyss-accent));
+}
+
+:is(
+  ak-flow-card,
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-stage-email,
+  ak-stage-access-denied
+) .pf-c-title,
+:is(
+  ak-flow-card,
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-consent
+) h1 {
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  font-size: 1.5rem !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.2 !important;
+  color: rgb(var(--abyss-accent)) !important;
+  text-wrap: balance;
+  text-shadow: none !important;
+}
+
+:is(
+  ak-flow-card,
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-stage-authenticator-validate,
+  ak-stage-user-login
+) p,
+:is(
+  ak-flow-card,
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-consent,
+  ak-stage-prompt
+) .pf-c-form__helper-text {
+  color: rgb(var(--abyss-muted)) !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.5 !important;
+  text-shadow: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   6. Forms — Zitadel spacing, Abyss inputs
+   ----------------------------------------------------------------------------- */
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-authenticator-static,
+  ak-stage-prompt,
+  ak-stage-email,
+  ak-form-element-horizontal,
+  ak-user-settings,
+  ak-user-settings-page,
+  ak-flow-card
+) label,
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-prompt,
+  ak-form-element-horizontal
+) .pf-c-form__label {
+  color: rgba(var(--abyss-accent), 0.72) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  text-shadow: none !important;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-authenticator-static,
+  ak-stage-prompt,
+  ak-stage-email,
+  ak-form-element-horizontal,
+  ak-user-settings,
+  ak-user-settings-page,
+  ak-flow-card,
+  ak-library-impl
+) .pf-c-form-control,
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-prompt,
+  ak-form-element-horizontal
+) input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(.faux-input):not([name="captchaToken"]),
+:is(
+  ak-stage-prompt,
+  ak-form-element-horizontal,
+  ak-user-settings
+) select,
+:is(
+  ak-stage-prompt,
+  ak-form-element-horizontal
+) textarea {
+  background: rgba(var(--abyss-void), 0.55) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  min-height: 2.75rem !important;
+  padding: 0.55rem 0.85rem !important;
+  box-shadow: none !important;
+  font-family: var(--abyss-font) !important;
+  font-size: 0.9375rem !important;
+  transition:
+    border-color 0.2s var(--abyss-ease),
+    background 0.2s var(--abyss-ease),
+    box-shadow 0.2s var(--abyss-ease);
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-prompt,
+  ak-form-element-horizontal,
+  ak-user-settings,
+  ak-library-impl,
+  ak-flow-card
+) .pf-c-form-control:hover,
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-prompt
+) input:not([type="checkbox"]):not([type="radio"]):hover {
+  border-color: rgba(var(--abyss-accent), 0.32) !important;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-prompt,
+  ak-form-element-horizontal,
+  ak-user-settings,
+  ak-library-impl,
+  ak-flow-card
+) .pf-c-form-control:focus,
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate-code,
+  ak-stage-prompt
+) input:not([type="checkbox"]):not([type="radio"]):focus {
+  outline: none !important;
+  border-color: rgba(var(--abyss-accent), 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(var(--abyss-accent), 0.12) !important;
+  background: rgba(var(--abyss-void), 0.72) !important;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-prompt
+) .pf-c-form-control::placeholder {
+  color: rgba(var(--abyss-accent), 0.38) !important;
+}
+
+/* Checkboxes — Abyss filled accent, not PatternFly blue.
+   Skip .pf-c-switch__input — remember-me is a switch, not a square check. */
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  .pf-c-login
+) input[type="checkbox"]:not(.pf-c-switch__input):not(.remember-me-switch input) {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  border: var(--abyss-hairline-strong);
+  border-radius: 4px;
+  background: rgba(var(--abyss-void), 0.6);
+  vertical-align: middle;
+  cursor: pointer;
+  transition:
+    background 0.18s var(--abyss-ease),
+    border-color 0.18s var(--abyss-ease);
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  .pf-c-login
+) input[type="checkbox"]:not(.pf-c-switch__input):checked {
+  background: rgb(var(--abyss-accent));
+  border-color: rgb(var(--abyss-accent));
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23121212' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M3.5 8.5l3 3 6-6'/></svg>");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-consent
+) .pf-c-check__label {
+  color: rgba(var(--abyss-accent), 0.82) !important;
+  font-size: 0.875rem !important;
+}
+
+/* -----------------------------------------------------------------------------
+   7. Buttons — Abyss primary (near-white fill, ink label)
+   ----------------------------------------------------------------------------- */
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-authenticator-static,
+  ak-stage-authenticator-webauthn,
+  ak-stage-authenticator-sms,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-stage-email,
+  ak-stage-captcha,
+  ak-flow-card,
+  ak-user-settings,
+  ak-user-settings-page
+) .pf-c-button.pf-m-primary {
+  background: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  min-height: 2.75rem !important;
+  padding: 0.65rem 1.15rem !important;
+  box-shadow: 0 0 24px 2px rgba(var(--abyss-accent), 0.12) !important;
+  transition:
+    transform 0.18s var(--abyss-ease),
+    background 0.18s var(--abyss-ease),
+    opacity 0.18s var(--abyss-ease);
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-validate-code,
+  ak-stage-authenticator-totp,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-flow-card
+) .pf-c-button.pf-m-primary:hover {
+  background: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  transform: translateY(-1px);
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-flow-card
+) .pf-c-button.pf-m-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-validate,
+  ak-stage-authenticator-totp,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-stage-prompt,
+  ak-flow-card,
+  ak-user-settings
+) .pf-c-button.pf-m-secondary,
+:is(
+  ak-stage-identification,
+  ak-stage-password
+) .pf-c-button.pf-m-link {
+  background: rgba(var(--abyss-accent), 0.06) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  min-height: 2.75rem !important;
+  box-shadow: none !important;
+  transition:
+    background 0.18s var(--abyss-ease),
+    border-color 0.18s var(--abyss-ease),
+    color 0.18s var(--abyss-ease);
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-authenticator-totp,
+  ak-stage-user-login,
+  ak-stage-consent,
+  ak-user-settings
+) .pf-c-button.pf-m-secondary:hover {
+  background: rgba(var(--abyss-accent), 0.14) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border-color: rgba(var(--abyss-accent), 0.32) !important;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-consent,
+  ak-stage-prompt
+) .pf-c-button:disabled,
+:is(
+  ak-stage-identification,
+  ak-stage-password
+) .pf-c-button.pf-m-primary:disabled {
+  opacity: 0.45 !important;
+  transform: none !important;
+  cursor: not-allowed !important;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-flow-card
+) a:not(.pf-c-button) {
+  color: rgba(var(--abyss-accent), 0.78) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-flow-card
+) a:not(.pf-c-button):hover {
+  color: rgb(var(--abyss-accent)) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+/* Social / source buttons — glass chips, not brand-rainbow */
+ak-stage-identification .source-button,
+ak-flow-card .source-button,
+.pf-c-login .source-button {
+  background: rgba(var(--abyss-accent), 0.05) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  min-height: 2.5rem !important;
+  box-shadow: none !important;
+  transition:
+    background 0.18s var(--abyss-ease),
+    border-color 0.18s var(--abyss-ease),
+    color 0.18s var(--abyss-ease);
+}
+
+ak-stage-identification .source-button:hover,
+ak-flow-card .source-button:hover {
+  background: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  border-color: rgb(var(--abyss-accent)) !important;
+}
+
+ak-stage-identification .source-button img {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+ak-stage-identification .ak-c-fieldset[part="source-list"],
+ak-flow-card .ak-c-fieldset[part="source-list"] {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  border: 0;
+  padding: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   8. Stage-specific: MFA, TOTP, consent, errors
+   ----------------------------------------------------------------------------- */
+
+ak-stage-authenticator-validate .pf-c-data-list,
+ak-stage-authenticator-validate .pf-c-card {
+  background: rgba(var(--abyss-void), 0.4) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+}
+
+ak-stage-authenticator-validate .pf-c-data-list__item:hover,
+ak-stage-authenticator-validate .pf-c-card:hover {
+  border-color: rgba(var(--abyss-accent), 0.35) !important;
+  background: rgba(var(--abyss-accent), 0.06) !important;
+}
+
+ak-stage-authenticator-totp qr-code {
+  background: #fff !important;
+  border-radius: var(--abyss-radius) !important;
+  padding: 0.6rem !important;
+  box-shadow: var(--abyss-shadow);
+}
+
+ak-stage-consent .pf-c-card,
+ak-stage-consent .pf-c-list {
+  background: rgba(var(--abyss-void), 0.35) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+ak-stage-access-denied .pf-c-title,
+ak-stage-flow-error .pf-c-title {
+  color: rgb(var(--abyss-danger)) !important;
+}
+
+ak-loading-overlay,
+.pf-c-login ak-loading-overlay {
+  border-radius: var(--abyss-radius-card);
+}
+
+/* Helper / banner */
+:is(
+  ak-stage-identification,
+  ak-stage-password,
+  ak-stage-prompt,
+  ak-flow-card
+) .pf-c-alert {
+  background: rgba(var(--abyss-danger), 0.12) !important;
+  border: 1px solid rgba(var(--abyss-danger), 0.35) !important;
+  border-radius: var(--abyss-radius) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   9. User interface — library + header
+   ----------------------------------------------------------------------------- */
+
+ak-interface-user .pf-c-page,
+ak-interface-user .pf-c-page__main,
+ak-interface-user .pf-c-drawer__content,
+ak-interface-user .pf-c-drawer__main,
+ak-library-impl .pf-c-page,
+ak-library-impl .pf-c-page__main-section {
+  background: transparent !important;
+}
+
+ak-interface-user [part="background-wrapper"] {
+  background-color: rgb(var(--abyss-void)) !important;
+  background-image: var(--ak-global--background-image, var(--abyss-wallpaper, none)) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+ak-interface-user [part="background-wrapper"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.48) 58%, rgba(0, 0, 0, 0.66)),
+    linear-gradient(180deg, rgba(var(--abyss-void), 0.22), rgba(var(--abyss-void), 0.58));
+}
+
+ak-interface-user [part="background-default-slant"] {
+  display: none;
+}
+
+ak-interface-user header.pf-c-page__header,
+ak-interface-user [part="page__header"] {
+  background: rgba(var(--abyss-glass-tint), 0.55) !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  -webkit-backdrop-filter: blur(var(--abyss-glass-blur));
+  border-bottom: var(--abyss-hairline) !important;
+  box-shadow: none !important;
+}
+
+ak-interface-user img.pf-c-brand {
+  height: 2rem;
+  min-height: 2rem;
+}
+
+ak-nav-buttons .pf-c-button,
+ak-interface-user .pf-c-page__header .pf-c-button,
+ak-interface-user a[href*="/if/admin/"] {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+ak-nav-buttons .pf-c-button:hover,
+ak-interface-user a[href*="/if/admin/"]:hover {
+  background: rgba(var(--abyss-accent), 0.12) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+}
+
+ak-nav-tabs .pf-c-nav__link,
+ak-interface-user .pf-c-nav__link {
+  color: rgba(var(--abyss-accent), 0.7) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+}
+
+ak-nav-tabs .pf-c-nav__link.pf-m-current,
+ak-interface-user .pf-c-nav__link.pf-m-current {
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+ak-nav-tabs .pf-c-nav__link.pf-m-current::after,
+ak-interface-user .pf-c-nav__link.pf-m-current::after {
+  background: rgb(var(--abyss-accent)) !important;
+  border-color: rgb(var(--abyss-accent)) !important;
+}
+
+/* Library search */
+ak-library-impl search,
+ak-library-impl #application-search-form {
+  max-width: 36rem;
+}
+
+ak-library-impl #application-search-input,
+ak-library-impl input[type="search"] {
+  background: rgba(var(--abyss-glass-tint), 0.7) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-pill) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  min-height: 2.75rem !important;
+  padding-inline: 1.1rem !important;
+  /* no backdrop-filter — it stacks over the header user menu */
+  position: relative;
+  z-index: 0;
+}
+
+ak-library-impl [part="app-group-header"] h2,
+ak-library-impl legend h2 {
+  color: rgba(var(--abyss-accent), 0.72) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  font-size: 0.8125rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+ak-library-impl [part="app-group-separator"] {
+  border-color: rgba(var(--abyss-accent), 0.08) !important;
+}
+
+/* Application cards — Abyss tiles, not invert-on-hover soup */
+ak-library-impl .pf-c-card.pf-m-hoverable,
+ak-library-impl .pf-c-card.pf-m-compact {
+  background: rgba(var(--abyss-glass-tint), 0.55) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  -webkit-backdrop-filter: blur(var(--abyss-glass-blur));
+  overflow: visible;
+  transition:
+    border-color 0.18s var(--abyss-ease),
+    transform 0.18s var(--abyss-ease),
+    background 0.18s var(--abyss-ease),
+    box-shadow 0.18s var(--abyss-ease);
+}
+
+ak-library-impl .pf-c-card.pf-m-hoverable:hover {
+  background: rgba(var(--abyss-glass-tint), 0.82) !important;
+  border-color: rgba(var(--abyss-accent), 0.38) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35) !important;
+}
+
+ak-library-impl .pf-c-card.pf-m-hoverable::before,
+ak-library-impl .pf-c-card.pf-m-hoverable::after,
+ak-library-impl .pf-c-card.pf-m-hoverable:hover::before,
+ak-library-impl .pf-c-card.pf-m-hoverable:hover::after {
+  /* Kill PatternFly's default hover flash without hiding the card. */
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+ak-library-impl .pf-c-card__title,
+ak-library-impl .pf-c-card__body,
+ak-library-impl [part="card"] {
+  color: rgb(var(--abyss-accent)) !important;
+  text-shadow: none !important;
+  font-family: var(--abyss-font) !important;
+}
+
+ak-library-impl .pf-c-empty-state,
+ak-library-application-empty-list {
+  color: rgb(var(--abyss-muted)) !important;
+}
+
+/* Drawers / notifications on the user shell */
+ak-interface-user .pf-c-drawer__panel,
+ak-notification-drawer {
+  background: rgba(var(--abyss-glass-tint), 0.82) !important;
+  backdrop-filter: blur(var(--abyss-backdrop-blur));
+  border-left: var(--abyss-hairline) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   10. User settings
+   ----------------------------------------------------------------------------- */
+
+:is(
+  ak-user-settings,
+  ak-user-settings-page,
+  ak-user-settings-details,
+  ak-user-settings-mfa,
+  ak-user-settings-tokens
+) .pf-c-card {
+  background: rgba(var(--abyss-glass-tint), 0.62) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+:is(
+  ak-user-settings,
+  ak-user-settings-page
+) .pf-c-card__title,
+:is(
+  ak-user-settings,
+  ak-user-settings-page
+) .pf-c-title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+}
+
+:is(
+  ak-user-settings,
+  ak-user-settings-page,
+  ak-user-settings-mfa
+) .pf-c-data-list,
+:is(
+  ak-user-settings-mfa
+) .pf-c-data-list__item {
+  background: transparent !important;
+  border-color: rgba(var(--abyss-accent), 0.12) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   11. Focus, selection, reduced motion
+   ----------------------------------------------------------------------------- */
+
+.pf-c-login :focus-visible,
+ak-flow-executor :focus-visible,
+ak-interface-user :focus-visible,
+ak-library-impl :focus-visible,
+ak-stage-identification :focus-visible,
+ak-stage-password :focus-visible {
+  outline: 2px solid rgba(var(--abyss-accent), 0.65);
+  outline-offset: 2px;
+}
+
+.pf-c-login ::selection,
+ak-interface-user ::selection,
+ak-stage-identification ::selection {
+  background: rgba(var(--abyss-accent), 0.25);
+  color: rgb(var(--abyss-accent));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-c-login *,
+  ak-flow-executor *,
+  ak-interface-user *,
+  ak-library-impl *,
+  ak-stage-identification *,
+  ak-stage-password *,
+  ak-stage-consent *,
+  :host-context(ak-flow-executor) *,
+  :host-context(ak-interface-user) * {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Narrow phones — keep authentik's grid, just tighten card padding */
+@media (max-width: 35rem) {
+  .pf-c-login .pf-c-login__main,
+  ak-flow-executor .pf-c-login__main {
+    border-radius: 18px !important;
+  }
+
+  .pf-c-login .pf-c-login__main-header,
+  ak-flow-card .pf-c-login__main-header,
+  .pf-c-login .pf-c-login__main-body,
+  ak-flow-card .pf-c-login__main-body,
+  .pf-c-login .pf-c-login__main-footer,
+  ak-flow-card .pf-c-login__main-footer {
+    padding-inline: 1.15rem !important;
+  }
+}
+
+
+/* -----------------------------------------------------------------------------
+   12. 2026.8 widgets — password reveal, remember-me switch, divider, captcha
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) .pf-c-input-group,
+ak-flow-input-password .pf-c-input-group {
+  display: flex !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  gap: 0 !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  overflow: hidden !important;
+  background: rgba(var(--abyss-void), 0.55) !important;
+  box-sizing: border-box !important;
+}
+
+html:has(ak-flow-executor) .pf-c-input-group > .pf-c-form-control,
+html:has(ak-flow-executor) .pf-c-input-group > input,
+html:has(ak-flow-executor) .pf-c-input-group > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(.faux-input):not([name="captchaToken"]),
+ak-flow-input-password .pf-c-input-group .pf-c-form-control {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  min-height: 2.75rem !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-input-group > .pf-c-button.pf-m-control,
+html:has(ak-flow-executor) .pf-c-button.pf-m-control,
+ak-flow-input-password .pf-c-button.pf-m-control {
+  --pf-c-button--BorderRadius: 0px !important;
+  --pf-c-button--after--BorderRadius: 0px !important;
+  background: transparent !important;
+  color: rgba(var(--abyss-accent), 0.7) !important;
+  border: 0 !important;
+  border-left: var(--abyss-hairline) !important;
+  border-radius: 0 !important;
+  min-height: 2.75rem !important;
+  height: auto !important;
+  min-width: 2.75rem !important;
+  flex: 0 0 2.75rem;
+  align-self: stretch;
+  box-shadow: none !important;
+  padding: 0 0.85rem !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-control:hover {
+  color: rgb(var(--abyss-accent)) !important;
+  background: rgba(var(--abyss-accent), 0.08) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-switch,
+html:has(ak-flow-executor) .remember-me-switch {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  margin-top: 0.65rem;
+  cursor: pointer;
+  color: rgba(var(--abyss-accent), 0.82) !important;
+  font-size: 0.875rem !important;
+}
+
+/*
+ * authentik's remember-me is a PF switch with only the hidden input + label
+ * (no .pf-c-switch__toggle). PF therefore never draws a thumb for the off
+ * state. Paint the input itself as the track and ::after as the thumb, with
+ * !important so ShadyDOM scoped PF check/switch rules cannot hide it.
+ */
+html:has(ak-flow-executor) .pf-c-switch__input,
+html:has(ak-flow-executor) .remember-me-switch input[type="checkbox"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  opacity: 1 !important;
+  width: 2.35rem !important;
+  height: 1.25rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(var(--abyss-accent), 0.28) !important;
+  background: rgba(var(--abyss-accent), 0.16) !important;
+  position: relative !important;
+  overflow: visible !important;
+  flex: 0 0 2.35rem !important;
+  cursor: pointer;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  display: inline-block !important;
+  vertical-align: middle;
+  clip: auto !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-switch__input::before,
+html:has(ak-flow-executor) .remember-me-switch input[type="checkbox"]::before {
+  content: none !important;
+  display: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-switch__input::after,
+html:has(ak-flow-executor) .remember-me-switch input[type="checkbox"]::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  top: 2px !important;
+  left: 2px !important;
+  width: 0.9rem !important;
+  height: 0.9rem !important;
+  border-radius: 50% !important;
+  background: rgb(var(--abyss-accent)) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45) !important;
+  transform: translateX(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none;
+  transition: transform 0.18s var(--abyss-ease);
+}
+
+html:has(ak-flow-executor) .pf-c-switch__input:checked,
+html:has(ak-flow-executor) .remember-me-switch input[type="checkbox"]:checked {
+  background: rgb(var(--abyss-accent)) !important;
+  border-color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-switch__input:checked::after,
+html:has(ak-flow-executor) .remember-me-switch input[type="checkbox"]:checked::after {
+  background: rgb(var(--abyss-ink)) !important;
+  transform: translateX(1.05rem) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-switch__toggle {
+  display: none !important;
+}
+
+html:has(ak-flow-executor) ak-divider,
+html:has(ak-flow-executor) [part="divider"] {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.85rem 0;
+  color: rgba(var(--abyss-accent), 0.45);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+html:has(ak-flow-executor) [part~="line"] {
+  flex: 1 1 auto;
+  height: 1px;
+  background: rgba(var(--abyss-accent), 0.16);
+}
+
+html:has(ak-flow-executor) .captcha-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0.85rem 0 0.25rem;
+  min-height: 65px;
+}
+
+html:has(ak-flow-executor) .captcha-container iframe,
+html:has(ak-flow-executor) iframe.ak-interactive-challenge,
+html:has(ak-flow-executor) .ak-interactive-challenge {
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+html:has(ak-flow-executor) .captcha-container iframe,
+html:has(ak-flow-executor) iframe.ak-interactive-challenge {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+html:has(ak-flow-executor) .faux-input,
+html:has(ak-flow-executor) input[name="captchaToken"] {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+ak-flow-input-password {
+  display: block;
+}
+
+html:has(ak-interface-user) .pf-c-page,
+html:has(ak-interface-user) .pf-c-page__header,
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable {
+  font-family: var(--abyss-font);
+}
+
+html:has(ak-interface-user) .pf-c-page__header {
+  background: rgba(var(--abyss-glass-tint), 0.55) !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  -webkit-backdrop-filter: blur(var(--abyss-glass-blur));
+  border-bottom: var(--abyss-hairline) !important;
+  box-shadow: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable,
+html:has(ak-interface-user) .pf-c-card.pf-m-compact {
+  background: rgba(var(--abyss-glass-tint), 0.55) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable:hover {
+  background: rgba(var(--abyss-glass-tint), 0.82) !important;
+  border-color: rgba(var(--abyss-accent), 0.38) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   13. Edge cases from a live 2026.8 identification flow
+       (Cloudflare Turnstile, passwordless, PF ::after borders, required marks)
+
+   PatternFly 4 draws the button outline on `::after`, not `border`. Setting
+   `border` on `.pf-c-button` leaves a primary-colored ring — that is the
+   broken "Use a security key" button. Kill the pseudo, then paint our own
+   hairline on the element.
+
+   Turnstile's managed widget is 300×65. Stretching the iframe to 100% turns
+   the success state into a wide white slab. Center it at native width and
+   never force height (authentik resizes the iframe when the challenge grows).
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) .pf-c-button,
+html:has(ak-flow-executor) a.pf-c-button,
+html:has(ak-interface-user) .pf-c-button {
+  --pf-c-button--after--BorderColor: transparent !important;
+  --pf-c-button--after--BorderWidth: 0px !important;
+  --pf-c-button--hover--after--BorderWidth: 0px !important;
+  --pf-c-button--focus--after--BorderWidth: 0px !important;
+  --pf-c-button--active--after--BorderWidth: 0px !important;
+  --pf-c-button--m-secondary--after--BorderColor: rgba(var(--abyss-accent), 0.22) !important;
+  --pf-c-button--m-secondary--hover--after--BorderColor: rgba(var(--abyss-accent), 0.4) !important;
+  --pf-c-button--m-control--after--BorderColor: transparent !important;
+  --pf-c-button--m-tertiary--after--BorderColor: rgba(var(--abyss-accent), 0.18) !important;
+  --pf-c-button--m-link--after--BorderColor: transparent !important;
+  --pf-c-button--after--BorderRadius: var(--abyss-radius) !important;
+  --pf-c-button--BorderRadius: var(--abyss-radius) !important;
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent)) !important;
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--hover--BackgroundColor: #ffffff !important;
+  --pf-c-button--m-primary--focus--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--active--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--disabled--Color: rgba(18, 18, 18, 0.55) !important;
+  --pf-c-button--m-secondary--Color: rgb(var(--abyss-accent)) !important;
+  --pf-c-button--m-secondary--BackgroundColor: rgba(var(--abyss-accent), 0.06) !important;
+  position: relative;
+}
+
+html:has(ak-flow-executor) .pf-c-button::after,
+html:has(ak-flow-executor) a.pf-c-button::after,
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary::after,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary::after,
+html:has(ak-flow-executor) .pf-c-button.pf-m-primary::after,
+html:has(ak-flow-executor) .pf-c-button.pf-m-control::after,
+html:has(ak-flow-executor) .pf-c-button.pf-m-link::after,
+html:has(ak-flow-executor) .pf-c-button.pf-m-plain::after,
+html:has(ak-flow-executor) .pf-c-button.pf-m-tertiary::after,
+html:has(ak-flow-executor) .source-button::after,
+html:has(ak-interface-user) .pf-c-button::after {
+  content: none !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  border-width: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary,
+html:has(ak-flow-executor) a[data-ouia-component-id="passwordless"],
+html:has(ak-flow-executor) .source-button:not(.pf-m-primary) {
+  background: rgba(var(--abyss-accent), 0.06) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  min-height: 2.75rem !important;
+  padding: 0.65rem 1.15rem !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary:hover,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary:hover,
+html:has(ak-flow-executor) a[data-ouia-component-id="passwordless"]:hover,
+html:has(ak-flow-executor) .source-button:not(.pf-m-primary):hover {
+  background: rgba(var(--abyss-accent), 0.14) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border-color: rgba(var(--abyss-accent), 0.32) !important;
+  text-decoration: none !important;
+}
+
+html:has(ak-flow-executor) a.pf-c-button,
+html:has(ak-flow-executor) a.pf-c-button:hover,
+html:has(ak-flow-executor) a.pf-c-button:focus,
+html:has(ak-flow-executor) a.pf-c-button:visited {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary:visited {
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary:hover {
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-control::after {
+  display: none !important;
+  content: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-form__group.pf-m-action {
+  margin-top: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+html:has(ak-flow-executor) .pf-c-form__group.pf-m-action .pf-c-button.pf-m-block {
+  margin-top: 0.15rem;
+}
+
+html:has(ak-flow-executor) .pf-c-form__label-text[data-required-label]::after,
+html:has(ak-flow-executor) .pf-c-form__label[aria-required="true"] .pf-c-form__label-text::after {
+  content: " *";
+  color: rgba(var(--abyss-danger), 0.95) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-helper-text.pf-m-error,
+html:has(ak-flow-executor) .pf-c-form__helper-text.pf-m-error {
+  color: rgb(var(--abyss-danger)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-form-control[aria-invalid="true"],
+html:has(ak-flow-executor) .pf-c-form-control.pf-m-error {
+  border-color: rgba(var(--abyss-danger), 0.65) !important;
+}
+
+html:has(ak-flow-executor) ak-stage-captcha,
+html:has(ak-flow-executor) ak-stage-captcha[embedded] {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: transparent !important;
+}
+
+html:has(ak-flow-executor) ak-stage-captcha iframe,
+html:has(ak-flow-executor) iframe.ak-interactive-challenge,
+html:has(ak-flow-executor) iframe[src*="challenges.cloudflare.com"],
+html:has(ak-flow-executor) iframe[src*="turnstile"],
+html:has(ak-flow-executor) iframe[id="ak-captcha"] {
+  display: block;
+  width: 300px !important;
+  max-width: 100% !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  margin-inline: auto;
+  /* height stays with authentik's inline style so the challenge can grow */
+}
+
+html:has(ak-flow-executor) .ak-interactive-challenge[data-ready="loading"] {
+  background: rgba(var(--abyss-void), 0.45) !important;
+  animation: none !important;
+  min-height: 65px;
+  width: 300px;
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-danger,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-danger {
+  background: rgba(var(--abyss-danger), 0.14) !important;
+  color: rgb(var(--abyss-danger)) !important;
+  border: 1px solid rgba(var(--abyss-danger), 0.45) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-danger::after {
+  display: none !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-danger:hover {
+  background: rgb(var(--abyss-danger)) !important;
+  color: #fff !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-link,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-link {
+  background: transparent !important;
+  color: rgba(var(--abyss-accent), 0.82) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  min-height: auto !important;
+}
+
+html:has(ak-flow-executor) .pf-c-progress__bar,
+html:has(ak-flow-executor) .pf-c-progress__indicator {
+  background: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-backdrop,
+html:has(ak-flow-executor) .pf-c-modal-box {
+  background: rgba(var(--abyss-void), 0.72) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-modal-box {
+  background: var(--abyss-glass) !important;
+  backdrop-filter: blur(var(--abyss-backdrop-blur));
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  box-shadow: var(--abyss-shadow) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-dropdown__menu,
+html:has(ak-interface-user) .pf-c-dropdown__menu {
+  background: rgba(var(--abyss-glass-tint), 0.94) !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: var(--abyss-shadow) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-dropdown__menu-item,
+html:has(ak-interface-user) .pf-c-dropdown__menu-item {
+  color: rgb(var(--abyss-accent)) !important;
+  background: transparent !important;
+}
+
+html:has(ak-flow-executor) .pf-c-dropdown__menu-item:hover,
+html:has(ak-interface-user) .pf-c-dropdown__menu-item:hover {
+  background: rgba(var(--abyss-accent), 0.08) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-empty-state,
+html:has(ak-flow-executor) ak-empty-state {
+  color: rgb(var(--abyss-muted)) !important;
+  background: transparent !important;
+}
+
+html:has(ak-flow-executor) .pf-c-spinner {
+  --pf-c-spinner--Color: rgb(var(--abyss-accent));
+}
+
+html:has(ak-flow-executor) ak-stage-authenticator-webauthn .pf-c-empty-state,
+html:has(ak-flow-executor) ak-stage-authenticator-validate-webauthn .pf-c-title {
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-input-group {
+  isolation: isolate;
+}
+
+html:has(ak-flow-executor) .pf-c-form-control.pf-m-icon:not(.pf-c-input-group > *) {
+  padding-inline-end: 0.85rem !important;
+}
+
+/* -----------------------------------------------------------------------------
+   14. Locale picker, remember-me off-state, password-group radius
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) ak-locale-select,
+html:has(ak-flow-executor) [part="locale-select"],
+ak-flow-executor ak-locale-select,
+ak-flow-executor [part="locale-select"] {
+  color-scheme: dark;
+  display: inline-flex !important;
+  flex-flow: row !important;
+  align-items: center !important;
+  gap: 0.15rem;
+  background: rgba(var(--abyss-glass-tint), 0.78) !important;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-pill) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --ak-c-locale-select--BackgroundColor: transparent;
+  --ak-c-locale-select--Color: rgb(var(--abyss-accent));
+  --ak-c-locale-select--label--Color: rgb(var(--abyss-accent));
+  --ak-c-locale-select--label--BackgroundColor: transparent;
+  --ak-c-locale-select--TextDecorationColor: transparent;
+  --ak-c-locale--select--OutlineColor: transparent !important;
+  --ak-c-locale-select__select--PaddingInline: 0px !important;
+  --ak-c-locale-select__select--PaddingInlineStart: 0.25rem !important;
+  --ak-c-locale-select__select--PaddingInlineEnd: 1.4rem !important;
+}
+
+html:has(ak-flow-executor) ak-locale-select svg,
+html:has(ak-flow-executor) ak-locale-select .icon,
+html:has(ak-flow-executor) [part="locale-select-label"] svg,
+html:has(ak-flow-executor) ak-locale-select [part="label"] svg {
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+  fill: currentColor !important;
+  stroke: currentColor;
+  color: rgb(var(--abyss-accent)) !important;
+  display: block;
+}
+
+html:has(ak-flow-executor) ak-locale-select [part="label"] {
+  position: static !important;
+  inset: auto !important;
+  padding: 0 0 0 0.75rem !important;
+  color: rgb(var(--abyss-accent)) !important;
+  pointer-events: none;
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+}
+
+html:has(ak-flow-executor) ak-locale-select select,
+html:has(ak-flow-executor) ak-locale-select [part="select"],
+html:has(ak-flow-executor) [part="locale-select-select"],
+html:has(ak-flow-executor) [part="select"],
+ak-flow-executor ak-locale-select select,
+ak-flow-executor [part="select"] {
+  all: unset;
+  display: inline-block;
+  appearance: base-select !important;
+  color-scheme: dark;
+  background: none !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  outline: none !important;
+  outline-width: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  text-decoration: none !important;
+  padding: 0.3rem 1.35rem 0.3rem 0.15rem !important;
+  min-height: 1.7rem;
+  cursor: pointer;
+  --ak-c-locale-select--BackgroundColor: transparent !important;
+  --ak-c-locale-select--Color: rgb(var(--abyss-accent)) !important;
+  --ak-c-locale--select--OutlineColor: transparent !important;
+}
+
+html:has(ak-flow-executor) ak-locale-select select:open,
+html:has(ak-flow-executor) ak-locale-select [part="select"]:open,
+html:has(ak-flow-executor) [part="select"]:open {
+  --ak-c-locale-select--BackgroundColor: rgb(var(--abyss-raised)) !important;
+  --ak-c-locale-select--Color: rgb(var(--abyss-accent)) !important;
+  background: rgb(var(--abyss-raised)) !important;
+  background-color: rgb(var(--abyss-raised)) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  color-scheme: dark !important;
+}
+
+html:has(ak-flow-executor) ak-locale-select option,
+html:has(ak-flow-executor) [part="select"] option {
+  color-scheme: dark;
+  background-color: rgb(20, 20, 20) !important;
+  color: rgb(245, 245, 247) !important;
+}
+
+html:has(ak-flow-executor) ak-locale-select option:checked,
+html:has(ak-flow-executor) ak-locale-select option:hover,
+html:has(ak-flow-executor) [part="select"] option:checked {
+  background-color: rgb(42, 42, 42) !important;
+  color: #ffffff !important;
+}
+
+html:has(ak-flow-executor) ak-locale-select select::picker(select),
+html:has(ak-flow-executor) [part="select"]::picker(select) {
+  appearance: base-select;
+  color-scheme: dark;
+  background: rgb(20, 20, 20);
+  color: rgb(245, 245, 247);
+  border: 1px solid rgba(245, 245, 247, 0.18);
+  border-radius: 12px;
+  padding: 0.35rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+html:has(ak-flow-executor) ak-locale-select select::picker-icon,
+html:has(ak-flow-executor) [part="select"]::picker-icon {
+  color: rgb(var(--abyss-accent));
+}
+
+html:has(ak-flow-executor) ak-locale-select::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+}
+
+html:has(ak-flow-executor) .pf-c-input-group > .pf-c-form-control.pf-m-icon,
+html:has(ak-flow-executor) .pf-c-input-group > .pf-c-form-control,
+html:has(ak-flow-executor) .pf-c-input-group > input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not(.faux-input):not([name="captchaToken"]) {
+  padding-inline-end: 0.85rem !important;
+  border-radius: 0 !important;
+}
+
+html:has(ak-flow-executor) .pf-c-input-group > .pf-c-button.pf-m-control {
+  --pf-c-button--BorderRadius: 0px !important;
+  border-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+html:has(ak-flow-executor) .pf-c-switch__input,
+html:has(ak-flow-executor) .remember-me-switch .pf-c-switch__input {
+  background-image: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   15. Passwordless / WebAuthn empty-state
+       ak-stage-authenticator-validate-webauthn + ak-stage-authenticator-webauthn
+       PatternFly paints primary label via --pf-c-button--m-primary--Color (white).
+       Combined with our white fill that is invisible text. Force ink on every
+       primary in the flow, including nested ShadyDOM stage classes.
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) .pf-c-button.pf-m-primary.pf-m-block,
+html:has(ak-flow-executor) button.pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) .pf-c-form__group.pf-m-action .pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) fieldset.pf-c-form__group .pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) ak-stage-authenticator-validate-webauthn .pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) ak-stage-authenticator-webauthn .pf-c-button.pf-m-primary,
+html:has(ak-flow-executor) ak-stage-authenticator-validate .pf-c-button.pf-m-primary,
+ak-stage-authenticator-validate-webauthn .pf-c-button.pf-m-primary,
+ak-stage-authenticator-webauthn .pf-c-button.pf-m-primary {
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent)) !important;
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--hover--BackgroundColor: #ffffff !important;
+  background: rgb(var(--abyss-accent)) !important;
+  background-color: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  min-height: 2.75rem !important;
+  box-shadow: 0 0 24px 2px rgba(var(--abyss-accent), 0.12) !important;
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-primary:hover,
+html:has(ak-flow-executor) button.pf-c-button.pf-m-primary:hover,
+ak-stage-authenticator-validate-webauthn .pf-c-button.pf-m-primary:hover,
+ak-stage-authenticator-webauthn .pf-c-button.pf-m-primary:hover {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+}
+
+html:has(ak-flow-executor) ak-empty-state,
+html:has(ak-flow-executor) .pf-c-empty-state,
+ak-stage-authenticator-validate-webauthn ak-empty-state,
+ak-stage-authenticator-webauthn ak-empty-state {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  text-align: center;
+}
+
+html:has(ak-flow-executor) .pf-c-empty-state__icon,
+html:has(ak-flow-executor) ak-empty-state [part="icon"],
+html:has(ak-flow-executor) ak-empty-state i.fa,
+html:has(ak-flow-executor) ak-empty-state .fa-times {
+  color: rgba(var(--abyss-accent), 0.55) !important;
+}
+
+html:has(ak-flow-executor) ak-empty-state .pf-c-title,
+html:has(ak-flow-executor) ak-empty-state [part="heading"],
+html:has(ak-flow-executor) .pf-c-empty-state__body,
+html:has(ak-flow-executor) ak-empty-state span {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+}
+
+ak-stage-authenticator-validate-webauthn,
+ak-stage-authenticator-webauthn,
+ak-empty-state {
+  display: block;
+}
+
+/* -----------------------------------------------------------------------------
+   16. Native Shadow DOM (passwordless / WebAuthn and any lazy-loaded stage)
+
+   Live 2026.8 on auth.httxrafa.dev: identification is ShadyDOM-flattened
+   (`style-scope ak-stage-identification`, html:has works). Passwordless
+   WebAuthn is a NATIVE open shadow (`ak-stage-authenticator-validate-webauthn`).
+   Brand CSS is adopted into that root, but `html:has(ak-flow-executor)` does
+   not match inside it — so the retry button stayed white-on-white and the
+   locale host (exported as ::part(locale-select)) never got the glass pill.
+
+   :host / :host-context / ::part apply inside those adopted sheets.
+   html:has rules above still cover the flattened identification flow.
+   ----------------------------------------------------------------------------- */
+
+:host(ak-flow-executor),
+:host-context(ak-flow-executor),
+:host(ak-locale-select),
+:host(ak-stage-authenticator-validate),
+:host(ak-stage-authenticator-validate-webauthn),
+:host(ak-stage-authenticator-webauthn),
+:host(ak-empty-state),
+:host(ak-flow-card) {
+  --abyss-accent: 245, 245, 247;
+  --abyss-glass-tint: 42, 42, 42;
+  --abyss-void: 10, 10, 10;
+  --abyss-raised: 20, 20, 20;
+  --abyss-ink: 18, 18, 18;
+  --abyss-muted: 168, 168, 176;
+  --abyss-danger: 196, 92, 92;
+  --abyss-radius: 12px;
+  --abyss-radius-pill: 999px;
+  --abyss-font: "Figtree", "Google Sans", "Segoe UI", system-ui, sans-serif;
+  --abyss-hairline: 1px solid rgba(var(--abyss-accent), 0.18);
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink));
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent));
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink));
+  --pf-c-button--m-primary--hover--BackgroundColor: #ffffff;
+  --pf-c-button--after--BorderWidth: 0px;
+  --pf-c-button--after--BorderColor: transparent;
+}
+
+/* Locale host — document CSS via exported part (pierces flow shadow)
+   and :host when this sheet is adopted into ak-locale-select. */
+ak-flow-executor::part(locale-select),
+:host(ak-locale-select) {
+  color-scheme: dark;
+  display: inline-flex !important;
+  flex-flow: row !important;
+  align-items: center !important;
+  gap: 0.15rem;
+  background: rgba(var(--abyss-glass-tint), 0.78) !important;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-pill) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --ak-c-locale-select--BackgroundColor: transparent;
+  --ak-c-locale-select--Color: rgb(var(--abyss-accent));
+  --ak-c-locale-select--label--Color: rgb(var(--abyss-accent));
+  --ak-c-locale-select--label--BackgroundColor: transparent;
+  --ak-c-locale--select--OutlineColor: transparent;
+}
+
+:host(ak-locale-select) [part="label"],
+:host(ak-locale-select) label {
+  position: static !important;
+  inset: auto !important;
+  padding: 0 0 0 0.75rem !important;
+  color: rgb(var(--abyss-accent)) !important;
+  background: transparent !important;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+:host(ak-locale-select) svg,
+:host(ak-locale-select) .icon {
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+  fill: currentColor !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-locale-select) select,
+:host(ak-locale-select) [part="select"] {
+  all: unset;
+  display: inline-block;
+  appearance: base-select !important;
+  color-scheme: dark;
+  background: none !important;
+  background-color: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  padding: 0.4rem 1.7rem 0.4rem 0.35rem !important;
+  cursor: pointer;
+  --ak-c-locale-select--BackgroundColor: transparent !important;
+  --ak-c-locale-select--Color: rgb(var(--abyss-accent)) !important;
+  --ak-c-locale--select--OutlineColor: transparent !important;
+}
+
+:host(ak-locale-select)::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Primary actions inside native-shadow stages (Retry authentication). */
+:host-context(ak-flow-executor) .pf-c-button.pf-m-primary,
+:host(ak-stage-authenticator-validate-webauthn) .pf-c-button.pf-m-primary,
+:host(ak-stage-authenticator-webauthn) .pf-c-button.pf-m-primary,
+:host(ak-stage-authenticator-validate) .pf-c-button.pf-m-primary,
+:host(ak-flow-card) .pf-c-button.pf-m-primary,
+:host(ak-empty-state) .pf-c-button.pf-m-primary {
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent)) !important;
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--after--BorderWidth: 0px !important;
+  background: rgb(var(--abyss-accent)) !important;
+  background-color: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  min-height: 2.75rem !important;
+  box-shadow: 0 0 24px 2px rgba(var(--abyss-accent), 0.12) !important;
+}
+
+:host-context(ak-flow-executor) .pf-c-button.pf-m-primary:hover,
+:host(ak-stage-authenticator-validate-webauthn) .pf-c-button.pf-m-primary:hover,
+:host(ak-stage-authenticator-webauthn) .pf-c-button.pf-m-primary:hover {
+  background: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+}
+
+:host-context(ak-flow-executor) .pf-c-button.pf-m-primary::after,
+:host(ak-stage-authenticator-validate-webauthn) .pf-c-button.pf-m-primary::after,
+:host(ak-stage-authenticator-webauthn) .pf-c-button.pf-m-primary::after {
+  content: none !important;
+  border: 0 !important;
+  display: none !important;
+}
+
+:host-context(ak-flow-executor) .pf-c-empty-state,
+:host(ak-empty-state),
+:host(ak-empty-state) .pf-c-empty-state {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  text-align: center;
+}
+
+:host-context(ak-flow-executor) .pf-c-empty-state__icon,
+:host(ak-empty-state) [part="icon"],
+:host(ak-empty-state) .pf-c-empty-state__icon {
+  color: rgba(var(--abyss-accent), 0.55) !important;
+}
+
+:host-context(ak-flow-executor) .pf-c-empty-state .pf-c-title,
+:host(ak-empty-state) [part="heading"],
+:host(ak-empty-state) span {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+}
+
+/* -----------------------------------------------------------------------------
+   17. Stay signed in?  (ak-stage-user-login)
+
+   Authentik markup:
+     <button name="remember-me" class="pf-c-button pf-m-primary">Yes</button>
+     <button name="forget-me"   class="pf-c-button pf-m-secondary">No</button>
+   Neither is pf-m-block, so PatternFly shrinks Yes and stretches No.
+   Stack them at equal width; keep Yes as the obvious default.
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-form__group.pf-m-action,
+html:has(ak-flow-executor) ak-stage-user-login fieldset.pf-m-action,
+:host(ak-stage-user-login) .pf-c-form__group.pf-m-action,
+:host(ak-stage-user-login) fieldset.pf-m-action,
+ak-stage-user-login .pf-c-form__group.pf-m-action {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0.7rem !important;
+  width: 100% !important;
+  margin-block-start: 1.15rem !important;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login button[name="remember-me"],
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-button.pf-m-primary,
+:host(ak-stage-user-login) button[name="remember-me"],
+:host(ak-stage-user-login) .pf-c-button.pf-m-primary,
+ak-stage-user-login button[name="remember-me"] {
+  width: 100% !important;
+  min-height: 3rem !important;
+  height: 3rem !important;
+  box-sizing: border-box !important;
+  padding: 0.75rem 1.15rem !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 700 !important;
+  font-size: 1.02rem !important;
+  letter-spacing: 0.01em;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 10px 28px rgba(0, 0, 0, 0.35),
+    0 0 32px 4px rgba(var(--abyss-accent), 0.16) !important;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login button[name="remember-me"]:hover,
+:host(ak-stage-user-login) button[name="remember-me"]:hover,
+ak-stage-user-login button[name="remember-me"]:hover {
+  background: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 14px 34px rgba(0, 0, 0, 0.4),
+    0 0 40px 6px rgba(var(--abyss-accent), 0.22) !important;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login button[name="forget-me"],
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-button.pf-m-secondary,
+:host(ak-stage-user-login) button[name="forget-me"],
+:host(ak-stage-user-login) .pf-c-button.pf-m-secondary,
+ak-stage-user-login button[name="forget-me"] {
+  width: 100% !important;
+  min-height: 3rem !important;
+  height: 3rem !important;
+  box-sizing: border-box !important;
+  padding: 0.75rem 1.15rem !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: rgba(var(--abyss-accent), 0.52) !important;
+  -webkit-text-fill-color: rgba(var(--abyss-accent), 0.52) !important;
+  border: 1px solid rgba(var(--abyss-accent), 0.14) !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  font-size: 0.9375rem !important;
+  box-shadow: none !important;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login button[name="forget-me"]:hover,
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-button.pf-m-secondary:hover,
+:host(ak-stage-user-login) button[name="forget-me"]:hover,
+:host(ak-stage-user-login) .pf-c-button.pf-m-secondary:hover,
+ak-stage-user-login button[name="forget-me"]:hover,
+ak-stage-user-login .pf-c-button.pf-m-secondary:hover {
+  background: rgba(var(--abyss-accent), 0.08) !important;
+  background-color: rgba(var(--abyss-accent), 0.08) !important;
+  color: rgba(var(--abyss-accent), 0.82) !important;
+  -webkit-text-fill-color: rgba(var(--abyss-accent), 0.82) !important;
+  border-color: rgba(var(--abyss-accent), 0.22) !important;
+  transform: none;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login button[name="remember-me"]::after,
+html:has(ak-flow-executor) ak-stage-user-login button[name="forget-me"]::after,
+:host(ak-stage-user-login) .pf-c-button::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+html:has(ak-flow-executor) ak-form-static,
+:host(ak-form-static) {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+html:has(ak-flow-executor) ak-form-static a,
+:host(ak-form-static) a,
+ak-form-static a {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+}
+
+html:has(ak-flow-executor) ak-form-static a:hover,
+:host(ak-form-static) a:hover,
+ak-form-static a:hover {
+  color: rgb(var(--abyss-accent)) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-avatar,
+:host(ak-form-static) .pf-c-avatar {
+  border-radius: 50% !important;
+  box-shadow: 0 0 0 1px rgba(var(--abyss-accent), 0.12);
+}
+
+/* -----------------------------------------------------------------------------
+   18. Secondary hover — never invert to solid white
+       White fill + leftover -webkit-text-fill-color (light) = invisible label
+       on No / "Select another authentication method". Lift to a gray-white mix.
+   ----------------------------------------------------------------------------- */
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary,
+:host-context(ak-flow-executor) .pf-c-button.pf-m-secondary,
+:host(ak-stage-authenticator-validate-code) .pf-c-button.pf-m-secondary,
+:host(ak-stage-authenticator-validate) .pf-c-button.pf-m-secondary,
+:host(ak-stage-user-login) .pf-c-button.pf-m-secondary {
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  transition:
+    background 0.18s var(--abyss-ease),
+    border-color 0.18s var(--abyss-ease),
+    color 0.18s var(--abyss-ease),
+    -webkit-text-fill-color 0.18s var(--abyss-ease);
+}
+
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary:hover,
+html:has(ak-flow-executor) .pf-c-button.pf-m-secondary:focus,
+html:has(ak-flow-executor) a.pf-c-button.pf-m-secondary:hover,
+:host-context(ak-flow-executor) .pf-c-button.pf-m-secondary:hover,
+:host(ak-stage-authenticator-validate-code) .pf-c-button.pf-m-secondary:hover,
+:host(ak-stage-authenticator-validate) .pf-c-button.pf-m-secondary:hover,
+:host(ak-stage-user-login) .pf-c-button.pf-m-secondary:hover,
+ak-stage-authenticator-validate-code .pf-c-button.pf-m-secondary:hover {
+  background: rgba(var(--abyss-accent), 0.16) !important;
+  background-color: rgba(var(--abyss-accent), 0.16) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border-color: rgba(var(--abyss-accent), 0.34) !important;
+}
+
+/* No stays quieter than other secondaries even on hover */
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-button.pf-m-secondary,
+:host(ak-stage-user-login) .pf-c-button.pf-m-secondary {
+  -webkit-text-fill-color: rgba(var(--abyss-accent), 0.52) !important;
+}
+
+html:has(ak-flow-executor) ak-stage-user-login .pf-c-button.pf-m-secondary:hover,
+:host(ak-stage-user-login) .pf-c-button.pf-m-secondary:hover {
+  background: rgba(var(--abyss-accent), 0.08) !important;
+  background-color: rgba(var(--abyss-accent), 0.08) !important;
+  color: rgba(var(--abyss-accent), 0.86) !important;
+  -webkit-text-fill-color: rgba(var(--abyss-accent), 0.86) !important;
+  border-color: rgba(var(--abyss-accent), 0.24) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   19. User dashboard — library, settings, credentials (authentik 2026.8)
+
+   Saved HTML from /if/user/: ak-interface-user, ak-library-impl, ak-app-icon,
+   ak-nav-buttons, ak-user-settings, ak-tabs, tables all use native open shadow.
+   Brand CSS is adopted into every host, so :host / :host-context paint inside
+   those trees. Document CSS only reaches exported parts (page__header, brand,
+   card, search-input, app-group, tab-button, table, …).
+
+   Isolation: :host-context(ak-interface-user) never matches Admin
+   (ak-interface-admin). Do not change authentik's card grid / aspect-ratio /
+   drawer height — only surfaces, type, and chrome color.
+   ----------------------------------------------------------------------------- */
+
+:host(ak-interface-user),
+:host(ak-library),
+:host(ak-library-impl),
+:host(ak-app-icon),
+:host(ak-nav-buttons),
+:host(ak-user-settings),
+:host(ak-user-settings-mfa),
+:host(ak-user-settings-password),
+:host(ak-user-settings-source),
+:host(ak-user-settings-flow-executor),
+:host(ak-user-session-list),
+:host(ak-user-consent-list),
+:host(ak-user-token-list),
+:host(ak-tabs),
+:host(ak-user-switcher),
+:host(ak-dropdown),
+:host(ak-table-search),
+:host(ak-spinner-button),
+:host(ak-notification-drawer),
+:host(ak-empty-state),
+:host-context(ak-interface-user) {
+  --abyss-accent: 245, 245, 247;
+  --abyss-glass-tint: 42, 42, 42;
+  --abyss-void: 10, 10, 10;
+  --abyss-raised: 20, 20, 20;
+  --abyss-ink: 18, 18, 18;
+  --abyss-muted: 168, 168, 176;
+  --abyss-danger: 196, 92, 92;
+  --abyss-ok: 125, 154, 120;
+  --abyss-radius: 12px;
+  --abyss-radius-card: 24px;
+  --abyss-radius-pill: 999px;
+  --abyss-font: "Figtree", "Google Sans", "Segoe UI", system-ui, sans-serif;
+  --abyss-hairline: 1px solid rgba(var(--abyss-accent), 0.18);
+  --abyss-glass-blur: 18px;
+  --abyss-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ak-accent: rgb(var(--abyss-accent));
+  --pf-global--FontFamily--sans-serif: var(--abyss-font);
+  --pf-global--Color--100: rgb(var(--abyss-accent));
+  --pf-global--Color--200: rgb(var(--abyss-muted));
+  --pf-global--BackgroundColor--100: rgb(var(--abyss-raised));
+  --pf-global--BackgroundColor--200: rgb(var(--abyss-void));
+  --pf-global--primary-color--100: rgb(var(--abyss-accent));
+  --pf-global--BorderColor--100: rgba(var(--abyss-accent), 0.16);
+  --pf-c-card--BackgroundColor: rgba(var(--abyss-glass-tint), 0.62);
+  --pf-c-card--m-hoverable--hover--BoxShadow: 0 12px 32px rgba(0, 0, 0, 0.38);
+  --pf-c-page--BackgroundColor: transparent;
+  --pf-c-page__header--BackgroundColor: transparent;
+  --pf-c-page__main-section--BackgroundColor: transparent;
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink));
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent));
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink));
+  --pf-c-button--m-secondary--Color: rgb(var(--abyss-accent));
+  --pf-c-button--after--BorderWidth: 0px;
+  --pf-c-button--after--BorderColor: transparent;
+  color: rgb(var(--abyss-accent));
+  font-family: var(--abyss-font);
+}
+
+ak-interface-user,
+ak-library,
+ak-library-impl,
+ak-user-settings {
+  display: block;
+}
+
+/* ---- Shell / wallpaper --------------------------------------------------- */
+
+html:has(ak-interface-user) .pf-c-page,
+html:has(ak-interface-user) .pf-c-page__main,
+html:has(ak-interface-user) .pf-c-drawer__content,
+html:has(ak-interface-user) .pf-c-drawer__main,
+:host(ak-interface-user) .pf-c-page,
+:host(ak-interface-user) .pf-c-page__main,
+:host(ak-interface-user) .pf-c-drawer__content,
+:host(ak-interface-user) .pf-c-drawer__main,
+:host(ak-library-impl) .pf-c-page,
+:host(ak-library-impl) .pf-c-page__main,
+:host(ak-library-impl) .pf-c-page__main-section,
+:host(ak-user-settings) .pf-c-page,
+:host(ak-user-settings) .pf-c-page__main,
+:host-context(ak-interface-user) .pf-c-page__main-section {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+ak-interface-user::part(background-wrapper),
+:host(ak-interface-user) [part="background-wrapper"] {
+  background-color: rgb(var(--abyss-void)) !important;
+  background-image: var(--ak-global--background-image, var(--abyss-wallpaper, none)) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+ak-interface-user::part(background-wrapper)::after,
+:host(ak-interface-user) [part="background-wrapper"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.48) 58%, rgba(0, 0, 0, 0.66)),
+    linear-gradient(180deg, rgba(var(--abyss-void), 0.22), rgba(var(--abyss-void), 0.58));
+}
+
+:host(ak-interface-user) [part="background-default-slant"],
+ak-interface-user::part(background-default-slant) {
+  display: none !important;
+}
+
+/* ---- Header bar ---------------------------------------------------------- */
+
+html:has(ak-interface-user) header.pf-c-page__header,
+html:has(ak-interface-user) [part="page__header"],
+ak-interface-user::part(page__header),
+:host(ak-interface-user) header.pf-c-page__header,
+:host(ak-interface-user) [part="page__header"] {
+  background: rgba(var(--abyss-glass-tint), 0.62) !important;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border-bottom: var(--abyss-hairline) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  min-height: 4.75rem;
+  position: relative;
+  z-index: 400 !important;
+  overflow: visible !important;
+}
+
+ak-interface-user::part(brand),
+:host(ak-interface-user) img.pf-c-brand,
+html:has(ak-interface-user) img.pf-c-brand {
+  height: 2rem !important;
+  min-height: 2rem !important;
+  max-height: 2rem !important;
+}
+
+/* Bell / cog / caret — ghost. Never invert to white (icons vanish). */
+:host(ak-nav-buttons) .pf-c-button,
+:host(ak-nav-buttons) .pf-c-button.pf-m-plain,
+:host(ak-nav-buttons) a.pf-c-button,
+:host(ak-user-switcher) .pf-c-dropdown__toggle,
+:host(ak-user-switcher) .pf-c-dropdown__toggle.pf-m-plain,
+html:has(ak-interface-user) .pf-c-page__header .pf-c-button.pf-m-plain,
+ak-nav-buttons .pf-c-button.pf-m-plain {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border-radius: var(--abyss-radius) !important;
+  min-width: 2.35rem;
+  min-height: 2.35rem;
+}
+
+:host(ak-nav-buttons) .pf-c-button::after,
+:host(ak-nav-buttons) a.pf-c-button::after,
+:host(ak-user-switcher) .pf-c-dropdown__toggle::after,
+:host(ak-user-switcher) .pf-c-dropdown__toggle::before {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+:host(ak-nav-buttons) .pf-c-button:hover,
+:host(ak-nav-buttons) a.pf-c-button:hover,
+:host(ak-user-switcher) .pf-c-dropdown__toggle:hover,
+html:has(ak-interface-user) .pf-c-page__header .pf-c-button.pf-m-plain:hover,
+ak-nav-buttons .pf-c-button.pf-m-plain:hover {
+  background: rgba(var(--abyss-accent), 0.12) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-nav-buttons) .pf-c-notification-badge,
+html:has(ak-interface-user) .pf-c-notification-badge {
+  color: rgb(var(--abyss-accent)) !important;
+  --pf-c-notification-badge__count--BackgroundColor: rgb(var(--abyss-raised));
+  --pf-c-notification-badge__count--Color: rgb(var(--abyss-accent));
+  --pf-c-notification-badge--after--BackgroundColor: transparent;
+  --pf-c-notification-badge--after--BorderColor: transparent;
+  --pf-c-notification-badge--before--BackgroundColor: transparent;
+}
+
+:host(ak-nav-buttons) .pf-c-notification-badge::before,
+:host(ak-nav-buttons) .pf-c-notification-badge::after,
+html:has(ak-interface-user) .pf-c-notification-badge::before,
+html:has(ak-interface-user) .pf-c-notification-badge::after {
+  content: none !important;
+  display: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+:host(ak-nav-buttons) .has-notifications,
+:host(ak-nav-buttons) .has-notifications .fas {
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-nav-buttons) .pf-c-notification-badge__count,
+html:has(ak-interface-user) .pf-c-notification-badge__count {
+  background: rgb(var(--abyss-raised)) !important;
+  background-color: rgb(var(--abyss-raised)) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border: 1px solid rgba(var(--abyss-accent), 0.28) !important;
+  box-shadow: none !important;
+  font-family: var(--abyss-font) !important;
+  font-size: 0.62rem !important;
+  font-weight: 600 !important;
+  min-width: 1.05rem !important;
+  width: auto !important;
+  height: 1.05rem !important;
+  line-height: 1.05rem !important;
+  padding: 0 0.22rem !important;
+  border-radius: 999px !important;
+}
+
+:host(ak-user-switcher) [part="avatar"],
+:host(ak-user-switcher) [part="avatar-image"],
+ak-user-switcher::part(avatar),
+ak-user-switcher::part(avatar-image) {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50% !important;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(var(--abyss-accent), 0.16);
+}
+
+/* ---- Menus (user switcher + card kebab) ---------------------------------- */
+
+:host(ak-dropdown) .pf-c-dropdown__menu,
+:host(ak-user-switcher) .pf-c-dropdown__menu,
+:host(ak-user-switcher) [part="menu"],
+:host(ak-library-impl) .pf-c-dropdown__menu,
+:host(ak-library-impl) [part="card-header-actions-menu"],
+:host-context(ak-interface-user) .pf-c-dropdown__menu,
+html:has(ak-interface-user) .pf-c-dropdown__menu {
+  background: rgb(var(--abyss-raised)) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+  padding: 0.4rem !important;
+  filter: none !important;
+  z-index: 500 !important;
+}
+
+:host(ak-dropdown) .pf-c-dropdown__menu-item,
+:host(ak-user-switcher) [part="menu-item"],
+:host(ak-library-impl) .pf-c-dropdown__menu-item,
+:host(ak-library-impl) [part="card-header-action"],
+:host-context(ak-interface-user) .pf-c-dropdown__menu-item,
+html:has(ak-interface-user) .pf-c-dropdown__menu-item {
+  color: rgb(var(--abyss-accent)) !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host(ak-dropdown) .pf-c-dropdown__menu-item:hover,
+:host(ak-user-switcher) [part="menu-item"]:hover,
+:host(ak-library-impl) .pf-c-dropdown__menu-item:hover,
+:host-context(ak-interface-user) .pf-c-dropdown__menu-item:hover,
+html:has(ak-interface-user) .pf-c-dropdown__menu-item:hover {
+  background: rgba(var(--abyss-accent), 0.1) !important;
+  color: #ffffff !important;
+}
+
+:host(ak-user-switcher) [part="name"],
+:host(ak-library-impl) [part="card-header-action-publisher"] {
+  color: rgb(var(--abyss-accent)) !important;
+  font-weight: 600;
+}
+
+:host(ak-user-switcher) [part="description"],
+:host(ak-library-impl) [part="card-header-action-description"] {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+}
+
+:host(ak-user-switcher) .pf-c-divider,
+:host-context(ak-interface-user) .pf-c-divider,
+:host(ak-divider) [part="divider"] {
+  border-color: rgba(var(--abyss-accent), 0.1) !important;
+  background: rgba(var(--abyss-accent), 0.1) !important;
+}
+
+:host(ak-interface-user) .pf-c-page__drawer,
+:host(ak-library-impl) {
+  position: relative;
+  z-index: 1;
+}
+
+:host(ak-nav-buttons),
+:host(ak-user-switcher) {
+  position: relative;
+  z-index: 2;
+}
+
+:host(ak-library-impl) .pf-c-page__title,
+html:has(ak-interface-user) .pf-c-page__title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em;
+}
+
+:host(ak-library-impl) .library-view-toggle,
+:host(ak-library-impl) [part="view-toggle"],
+html:has(ak-interface-user) .library-view-toggle {
+  color: rgb(var(--abyss-accent)) !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+}
+
+:host(ak-library-impl) .library-view-toggle:hover,
+:host(ak-library-impl) [part="view-toggle"]:hover,
+html:has(ak-interface-user) .library-view-toggle:hover {
+  background: rgba(var(--abyss-accent), 0.12) !important;
+}
+
+:host(ak-library-impl) .library-view-toggle::after {
+  content: none !important;
+  display: none !important;
+}
+
+:host(ak-library-impl) search,
+:host(ak-library-impl) #application-search-form {
+  position: relative;
+  z-index: 0;
+}
+
+:host(ak-library-impl) #application-search-input,
+:host(ak-library-impl) input[name="application-search"],
+:host(ak-library-impl) [part="search-input"],
+ak-library-impl::part(search-input),
+html:has(ak-interface-user) #application-search-input {
+  background: rgba(var(--abyss-glass-tint), 0.72) !important;
+  border: var(--abyss-hairline) !important;
+  border-block-start: var(--abyss-hairline) !important;
+  border-inline: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-pill) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  min-height: 2.6rem !important;
+  padding-inline: 1.15rem !important;
+  box-shadow: none !important;
+  font-family: var(--abyss-font) !important;
+  font-size: 0.95rem !important;
+  /* no backdrop-filter — it creates a stacking context that sits over the header menu */
+  z-index: 0;
+  position: relative;
+  --pf-c-form-control--BorderBottomColor: transparent;
+  outline: none !important;
+}
+
+:host(ak-library-impl) #application-search-input:focus,
+:host(ak-library-impl) input[name="application-search"]:focus,
+html:has(ak-interface-user) #application-search-input:focus {
+  border-color: rgba(var(--abyss-accent), 0.42) !important;
+  box-shadow: 0 0 0 3px rgba(var(--abyss-accent), 0.12) !important;
+}
+
+:host(ak-library-impl) #application-search-input::placeholder,
+:host(ak-library-impl) input[name="application-search"]::placeholder,
+html:has(ak-interface-user) #application-search-input::placeholder {
+  color: rgba(var(--abyss-accent), 0.42) !important;
+}
+
+:host(ak-library-impl) input[name="application-search"]::-webkit-calendar-picker-indicator,
+:host(ak-library-impl) input[name="application-search"]::-webkit-list-button {
+  display: none !important;
+}
+
+:host(ak-library-impl) [part="app-group-header"] h2,
+:host(ak-library-impl) legend h2,
+html:has(ak-interface-user) [part="app-group-header"] h2,
+ak-library-impl::part(app-group-header) {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+:host(ak-library-impl) [part="app-group-separator"],
+ak-library-impl::part(app-group-separator) {
+  border-color: rgba(var(--abyss-accent), 0.08) !important;
+}
+
+/* ---- Application tiles (keep authentik grid / aspect-ratio) -------------- */
+
+:host(ak-library-impl) .pf-c-card.pf-m-hoverable,
+:host(ak-library-impl) .pf-c-card.pf-m-compact,
+:host(ak-library-impl) [part="card"],
+ak-library-impl::part(card),
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable,
+html:has(ak-interface-user) .pf-c-card.pf-m-compact {
+  --pf-c-card--BackgroundColor: rgba(var(--abyss-glass-tint), 0.58);
+  background: rgba(var(--abyss-glass-tint), 0.58) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  -webkit-backdrop-filter: blur(var(--abyss-glass-blur));
+  color: rgb(var(--abyss-accent)) !important;
+  overflow: visible;
+  transition:
+    border-color 0.2s var(--abyss-ease),
+    background 0.2s var(--abyss-ease),
+    box-shadow 0.2s var(--abyss-ease),
+    transform 0.22s var(--abyss-ease);
+}
+
+:host(ak-library-impl) .pf-c-card.pf-m-hoverable:hover,
+:host(ak-library-impl) [part="card"]:hover,
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable:hover {
+  background: rgba(var(--abyss-glass-tint), 0.82) !important;
+  --pf-c-card--BackgroundColor: rgba(var(--abyss-glass-tint), 0.82);
+  border-color: rgba(var(--abyss-accent), 0.38) !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-3px);
+}
+
+:host(ak-library-impl) .pf-c-card.pf-m-hoverable:active,
+:host(ak-library-impl) [part="card"]:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+:host(ak-library-impl) .pf-c-card.pf-m-hoverable::before,
+:host(ak-library-impl) .pf-c-card.pf-m-hoverable::after,
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable::before,
+html:has(ak-interface-user) .pf-c-card.pf-m-hoverable::after {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+:host(ak-library-impl) .pf-c-card__title,
+:host(ak-library-impl) [part="card-title"],
+:host(ak-library-impl) .clamp-wrapper,
+html:has(ak-interface-user) .pf-c-card__title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  -webkit-text-stroke-width: 0 !important;
+  -webkit-text-stroke-color: transparent !important;
+  text-stroke-width: 0 !important;
+  text-stroke-color: transparent !important;
+}
+
+:host(ak-library-impl) .card-header-aspect-wrapper {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+:host(ak-library-impl) [part="card-header"]:hover .pf-c-card__title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:host(ak-library-impl) [part="card-header-actions"],
+ak-library-impl::part(card-header-actions) {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  inset: 0.45rem 0.45rem auto auto;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+:host(ak-library-impl) [part="card-header-actions-button"],
+:host(ak-library-impl) [part="card-header-actions"] .pf-c-dropdown__toggle,
+ak-library-impl::part(card-header-actions-button) {
+  --pf-c-dropdown__toggle--MinHeight: 2rem;
+  --pf-c-dropdown__toggle--PaddingLeft: 0px;
+  --pf-c-dropdown__toggle--PaddingRight: 0px;
+  --pf-c-dropdown__toggle--PaddingTop: 0px;
+  --pf-c-dropdown__toggle--PaddingBottom: 0px;
+  width: 2rem !important;
+  height: 2rem !important;
+  min-width: 2rem !important;
+  min-height: 2rem !important;
+  max-width: 2rem !important;
+  max-height: 2rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+:host(ak-library-impl) [part="card-header-actions-button"]::before,
+:host(ak-library-impl) [part="card-header-actions-button"]::after,
+ak-library-impl::part(card-header-actions-button)::before,
+ak-library-impl::part(card-header-actions-button)::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+:host(ak-library-impl) [part="card-header-actions-button"]:hover,
+:host(ak-library-impl) [part="card-header-actions"] .pf-c-dropdown__toggle:hover,
+ak-library-impl::part(card-header-actions-button):hover {
+  background: rgba(var(--abyss-accent), 0.14) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+/* ⋮ stays in the DOM; pin the three dots to the geometric center. */
+:host(ak-library-impl) [part="card-header-actions-icon"],
+ak-library-impl::part(card-header-actions-icon) {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  display: block !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+:host(ak-library-impl) [part="card-header-actions-icon"]::after,
+ak-library-impl::part(card-header-actions-icon)::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 0.2rem !important;
+  height: 0.2rem !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgb(var(--abyss-accent));
+  box-shadow:
+    0 -0.38rem 0 rgb(var(--abyss-accent)),
+    0  0.38rem 0 rgb(var(--abyss-accent));
+}
+
+:host(ak-app-icon) .icon-wrapper,
+:host(ak-app-icon) .icon,
+:host(ak-app-icon) [part="icon"],
+ak-app-icon::part(icon),
+ak-library-impl::part(card-header-icon) {
+  border-radius: 12px !important;
+}
+
+/* List view rows */
+:host(ak-library-impl) [data-view-mode="list"] .app-row {
+  border-block-end-color: rgba(var(--abyss-accent), 0.1) !important;
+}
+
+:host(ak-library-impl) [data-view-mode="list"] .app-row:hover {
+  background: rgba(var(--abyss-accent), 0.06) !important;
+}
+
+:host(ak-library-impl) [data-view-mode="list"] .row-title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host(ak-library-impl) [data-view-mode="list"] .row-meta {
+  color: rgba(var(--abyss-accent), 0.58) !important;
+}
+
+/* ---- Settings tabs ------------------------------------------------------- */
+
+:host(ak-tabs) {
+  align-items: flex-start !important;
+  align-content: flex-start !important;
+  gap: 1.25rem;
+}
+
+:host(ak-tabs) ::slotted([role="tabpanel"]),
+:host(ak-tabs) ::slotted(.pf-c-page__main-section) {
+  --pf-c-page__main-section--PaddingTop: 0px;
+  padding-top: 0 !important;
+  padding-block-start: 0 !important;
+  margin-top: 0 !important;
+}
+
+:host(ak-user-settings) .pf-c-page__main-section,
+:host(ak-user-settings) [role="tabpanel"] {
+  --pf-c-page__main-section--PaddingTop: 0px;
+  padding-top: 0 !important;
+  padding-block-start: 0 !important;
+  margin-top: 0 !important;
+}
+
+ak-tabs::part(container),
+ak-tabs::part(column),
+:host(ak-tabs) .pf-c-tabs,
+:host(ak-tabs) [part="container"],
+:host(ak-tabs) [part~="container"],
+:host(ak-user-settings) .pf-c-tabs,
+html:has(ak-interface-user) .pf-c-tabs {
+  --pf-c-tabs__item--m-current__link--Color: rgb(var(--abyss-accent));
+  --pf-c-tabs__link--Color: rgba(var(--abyss-accent), 0.62);
+  --pf-c-tabs--before--BorderColor: rgba(var(--abyss-accent), 0.12);
+  --pf-c-tabs__item--m-current__link--after--BorderColor: rgb(var(--abyss-accent));
+  background: rgba(var(--abyss-glass-tint), 0.45) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  color: rgb(var(--abyss-accent)) !important;
+  align-self: flex-start !important;
+  height: max-content !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  flex-grow: 0 !important;
+}
+
+:host(ak-tabs) .pf-c-tabs.pf-m-box::before,
+:host(ak-tabs) .pf-c-tabs::before {
+  border-color: transparent !important;
+}
+
+:host(ak-tabs) .pf-c-tabs__link,
+:host(ak-tabs) [part="tab-button"],
+ak-tabs::part(tab-button),
+html:has(ak-interface-user) .pf-c-tabs__link {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+:host(ak-tabs) .pf-c-tabs__item.pf-m-current .pf-c-tabs__link,
+:host(ak-tabs) [part="tab-button"][aria-selected="true"],
+html:has(ak-interface-user) .pf-c-tabs__item.pf-m-current .pf-c-tabs__link {
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  background: rgba(var(--abyss-accent), 0.08) !important;
+}
+
+:host(ak-tabs) .pf-c-tabs__item.pf-m-current .pf-c-tabs__link::after,
+html:has(ak-interface-user) .pf-c-tabs__item.pf-m-current .pf-c-tabs__link::after {
+  background: rgb(var(--abyss-accent)) !important;
+  border-color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-tabs) .pf-c-tabs__link:hover,
+:host(ak-tabs) [part="tab-button"]:hover {
+  color: rgb(var(--abyss-accent)) !important;
+  background: rgba(var(--abyss-accent), 0.08) !important;
+}
+
+/* ---- Settings cards ------------------------------------------------------ */
+
+:host(ak-user-settings) .pf-c-card,
+:host(ak-user-settings-password) .pf-c-card,
+:host(ak-user-settings-flow-executor) .pf-c-card,
+:host(ak-user-session-list) .pf-c-card,
+html:has(ak-interface-user) ak-user-settings .pf-c-card {
+  background: rgba(var(--abyss-glass-tint), 0.62) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  box-shadow: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+  backdrop-filter: blur(var(--abyss-glass-blur));
+  -webkit-backdrop-filter: blur(var(--abyss-glass-blur));
+}
+
+/* MFA / tokens already live inside a titled .pf-c-card — never paint a second one. */
+:host(ak-user-settings-mfa) .pf-c-card,
+:host(ak-user-token-list) .pf-c-card,
+:host(ak-user-settings-source) .pf-c-card,
+:host(ak-user-settings-mfa) [part="table-container"],
+:host(ak-user-token-list) [part="table-container"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+}
+
+:host(ak-user-settings) .pf-c-card__title,
+:host(ak-user-settings-password) .pf-c-card__title,
+:host(ak-user-settings-flow-executor) .pf-c-card__title,
+:host-context(ak-interface-user) .pf-c-card__title,
+html:has(ak-interface-user) ak-user-settings .pf-c-card__title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+}
+
+:host-context(ak-interface-user) .pf-c-card__body,
+:host(ak-user-settings-flow-executor) .pf-c-card__body,
+:host(ak-user-settings-password) .pf-c-card__body {
+  color: rgba(var(--abyss-accent), 0.82) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host(ak-user-settings-mfa),
+:host(ak-user-token-list),
+:host(ak-user-settings-source) {
+  display: block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+:host(ak-user-settings-mfa) .pf-c-table,
+:host(ak-user-session-list) .pf-c-table,
+:host(ak-user-consent-list) .pf-c-table,
+:host(ak-user-token-list) .pf-c-table,
+:host-context(ak-interface-user) .pf-c-table,
+:host-context(ak-interface-user) [part="table"],
+html:has(ak-interface-user) .pf-c-table {
+  --pf-c-table--BackgroundColor: transparent;
+  --pf-c-table--BorderColor: rgba(var(--abyss-accent), 0.12);
+  --pf-c-table--cell--Color: rgb(var(--abyss-accent));
+  --pf-c-table--tr--m-hoverable--hover--BackgroundColor: rgba(var(--abyss-accent), 0.06);
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-table th,
+:host-context(ak-interface-user) .pf-c-table thead,
+html:has(ak-interface-user) .pf-c-table th {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+  font-weight: 600 !important;
+  font-family: var(--abyss-font) !important;
+  background: transparent !important;
+  border-color: rgba(var(--abyss-accent), 0.12) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-table td,
+:host-context(ak-interface-user) .pf-c-table tr,
+html:has(ak-interface-user) .pf-c-table td {
+  color: rgb(var(--abyss-accent)) !important;
+  background: transparent !important;
+  border-color: rgba(var(--abyss-accent), 0.1) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-table__button,
+:host-context(ak-interface-user) .pf-c-table__text {
+  color: inherit !important;
+  background: transparent !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-table tbody tr:hover,
+:host-context(ak-interface-user) .pf-c-table tr:hover {
+  background: rgba(var(--abyss-accent), 0.05) !important;
+}
+
+:host-context(ak-interface-user) input[type="checkbox"] {
+  accent-color: rgb(var(--abyss-accent));
+}
+
+:host(ak-timestamp) [part="elapsed"],
+:host(ak-timestamp) [part="datetime"],
+:host-context(ak-interface-user) time {
+  color: rgba(var(--abyss-accent), 0.7) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+/* ---- Toolbar / search / buttons in user settings ------------------------- */
+
+:host-context(ak-interface-user) .pf-c-toolbar,
+:host(ak-user-settings-mfa) [part="toolbar"],
+:host(ak-user-session-list) [part="toolbar"],
+:host(ak-user-token-list) [part="toolbar"] {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-table-search) .pf-c-form-control,
+:host(ak-table-search) [part="search-input"],
+:host-context(ak-interface-user) .pf-c-form-control,
+html:has(ak-interface-user) .pf-c-form-control {
+  background: rgba(var(--abyss-void), 0.45) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  box-shadow: none !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-primary,
+:host(ak-spinner-button) .pf-c-button.pf-m-primary,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary,
+:host(ak-user-settings-mfa) .pf-m-primary.pf-c-dropdown__toggle,
+:host-context(ak-interface-user) a.pf-c-button.pf-m-primary,
+html:has(ak-interface-user) .pf-c-button.pf-m-primary {
+  background: rgb(var(--abyss-accent)) !important;
+  background-color: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+  width: auto !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.5rem !important;
+  padding: 0.5rem 1.1rem !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-primary:hover,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary:hover,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary:hover,
+html:has(ak-interface-user) .pf-c-button.pf-m-primary:hover {
+  background: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-secondary,
+:host(ak-spinner-button) .pf-c-button.pf-m-secondary,
+:host-context(ak-interface-user) a.pf-c-button.pf-m-secondary,
+html:has(ak-interface-user) .pf-c-button.pf-m-secondary {
+  background: rgba(var(--abyss-accent), 0.06) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  box-shadow: none !important;
+  width: auto !important;
+  display: inline-flex !important;
+  min-height: 2.5rem !important;
+  padding: 0.5rem 1.1rem !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-secondary:hover,
+html:has(ak-interface-user) .pf-c-button.pf-m-secondary:hover {
+  background: rgba(var(--abyss-accent), 0.16) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-danger,
+html:has(ak-interface-user) .pf-c-button.pf-m-danger {
+  background: rgba(var(--abyss-danger), 0.14) !important;
+  color: rgb(var(--abyss-danger)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-danger)) !important;
+  border: 1px solid rgba(var(--abyss-danger), 0.4) !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-danger:disabled,
+html:has(ak-interface-user) .pf-c-button.pf-m-danger:disabled {
+  opacity: 0.4;
+}
+
+:host-context(ak-interface-user) .pf-c-button::after,
+:host(ak-spinner-button) .pf-c-button::after,
+:host(ak-dropdown) .pf-c-dropdown__toggle::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+:host-context(ak-interface-user) .pf-c-button.pf-m-plain {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Empty states inside user UI */
+:host-context(ak-interface-user) .pf-c-empty-state,
+:host(ak-empty-state) .pf-c-empty-state {
+  background: transparent !important;
+  color: rgb(var(--abyss-muted)) !important;
+}
+
+/* Notification drawer */
+:host(ak-interface-user) .pf-c-drawer__panel,
+:host(ak-interface-user) .pf-c-drawer__panel_content,
+html:has(ak-interface-user) .pf-c-drawer__panel {
+  background: rgba(var(--abyss-glass-tint), 0.9) !important;
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border-left: var(--abyss-hairline) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  box-shadow: -16px 0 40px rgba(0, 0, 0, 0.35);
+}
+
+:host(ak-notification-drawer),
+:host(ak-notification-drawer) .pf-c-drawer__body,
+:host(ak-notification-drawer) .pf-c-notification-drawer,
+:host(ak-notification-drawer) .pf-c-notification-drawer__body {
+  --pf-c-notification-drawer--BackgroundColor: transparent;
+  --pf-c-notification-drawer__header--BackgroundColor: rgba(var(--abyss-glass-tint), 0.55);
+  --pf-c-notification-drawer__list-item--BorderBottomColor: rgba(var(--abyss-accent), 0.1);
+  --ak-dark-background: rgb(var(--abyss-raised));
+  --ak-dark-background-lighter: rgba(var(--abyss-glass-tint), 0.8);
+  --ak-dark-foreground: rgb(var(--abyss-accent));
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host(ak-notification-drawer) .pf-c-notification-drawer__header {
+  background: rgba(var(--abyss-glass-tint), 0.55) !important;
+  border-bottom: var(--abyss-hairline) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  padding: 1rem 1.1rem !important;
+}
+
+:host(ak-notification-drawer) .pf-c-notification-drawer__header-title,
+:host(ak-notification-drawer) .pf-c-notification-drawer__list-item-header-title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+}
+
+:host(ak-notification-drawer) .pf-c-notification-drawer__header span,
+:host(ak-notification-drawer) .text {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host(ak-notification-drawer) .pf-c-button.pf-m-plain {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: var(--abyss-radius) !important;
+}
+
+:host(ak-notification-drawer) .pf-c-button.pf-m-plain:hover {
+  background: rgba(var(--abyss-accent), 0.12) !important;
+}
+
+:host(ak-notification-drawer) .pf-c-notification-drawer__list-item {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border-bottom: 1px solid rgba(var(--abyss-accent), 0.1) !important;
+}
+
+:host(ak-notification-drawer) .pf-c-notification-drawer__list-item-description,
+:host(ak-notification-drawer) .pf-c-notification-drawer__list-item-timestamp {
+  color: rgba(var(--abyss-accent), 0.62) !important;
+}
+
+:host-context(ak-notification-drawer) .pf-c-empty-state,
+:host-context(ak-notification-drawer) .pf-c-empty-state__body,
+:host-context(ak-notification-drawer) .pf-c-title,
+:host-context(ak-notification-drawer) [part="heading"],
+:host-context(ak-notification-drawer) [part="body"] {
+  background: transparent !important;
+  color: rgba(var(--abyss-accent), 0.72) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host-context(ak-notification-drawer) .pf-c-empty-state__icon,
+:host-context(ak-notification-drawer) [part="icon"] {
+  color: rgba(var(--abyss-accent), 0.4) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-pagination,
+:host-context(ak-interface-user) [part="pagination-bottom"] {
+  color: rgba(var(--abyss-accent), 0.7) !important;
+  background: transparent !important;
+}
+
+/* Forms / modals on user settings (token create, MFA edit) */
+:host-context(ak-interface-user) .pf-c-modal-box,
+:host(ak-forms-modal) .pf-c-modal-box,
+html:has(ak-interface-user) .pf-c-modal-box {
+  background: rgb(var(--abyss-raised)) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  border: var(--abyss-hairline) !important;
+  border-radius: var(--abyss-radius-card) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+:host-context(ak-interface-user) .pf-c-form__label {
+  color: rgba(var(--abyss-accent), 0.78) !important;
+  font-family: var(--abyss-font) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   20. Live dashboard patches (authentik 2026.8 /if/user/)
+
+   Native-shadow hosts only accept document CSS on the host box itself, via
+   ::part(), or via custom properties that inherit across the shadow boundary.
+   This block prefers those three. Admin (ak-interface-admin) is never selected.
+   ----------------------------------------------------------------------------- */
+
+/* 1. Wallpaper — paint the brand background onto the fixed wrapper.
+      uiConfig.theme.background is empty, so authentik only shows the slant. */
+ak-interface-user::part(background-wrapper) {
+  background-color: rgb(var(--abyss-void)) !important;
+  background-image: var(--ak-global--background-image, var(--abyss-wallpaper)) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+ak-interface-user::part(background-wrapper)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.36) 58%, rgba(0, 0, 0, 0.5)),
+    linear-gradient(180deg, rgba(var(--abyss-void), 0.16), rgba(var(--abyss-void), 0.42));
+}
+ak-interface-user::part(background-default-slant) {
+  display: none !important;
+}
+html:has(ak-interface-user) body,
+body:has(ak-interface-user) {
+  background-image: var(--ak-global--background-image, var(--abyss-wallpaper)) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-color: rgb(var(--abyss-void)) !important;
+}
+
+/* 2. Notification count — PF uses --pf-global--primary-color--100 (our near-white
+      accent) as the chip fill. Set the badge vars on the HOST so they inherit. */
+html:has(ak-interface-user) ak-nav-buttons {
+  --pf-c-notification-badge__count--BackgroundColor: rgb(var(--abyss-raised));
+  --pf-c-notification-badge__count--Color: rgb(var(--abyss-accent));
+  --pf-c-notification-badge--after--BackgroundColor: transparent;
+  --pf-c-notification-badge--after--BorderColor: transparent;
+  --pf-c-notification-badge--before--BackgroundColor: transparent;
+  --pf-c-notification-badge--m-unread__count--BackgroundColor: rgb(var(--abyss-raised));
+  --pf-c-notification-badge--m-unread__count--Color: rgb(var(--abyss-accent));
+  --pf-c-notification-badge--m-attention__count--BackgroundColor: rgb(var(--abyss-raised));
+}
+:host(ak-nav-buttons) .pf-c-notification-badge,
+:host(ak-nav-buttons) .pf-c-notification-badge.pf-m-unread,
+:host(ak-nav-buttons) .pf-c-notification-badge.pf-m-attention,
+:host(ak-nav-buttons) .pf-c-notification-badge.pf-m-read {
+  --pf-c-notification-badge__count--BackgroundColor: rgb(var(--abyss-raised)) !important;
+  --pf-c-notification-badge__count--Color: rgb(var(--abyss-accent)) !important;
+  --pf-c-notification-badge--after--BackgroundColor: transparent !important;
+  --pf-c-notification-badge--after--BorderColor: transparent !important;
+  --pf-c-notification-badge--before--BackgroundColor: transparent !important;
+}
+:host(ak-nav-buttons) .pf-c-notification-badge__count {
+  background: rgb(var(--abyss-raised)) !important;
+  background-color: rgb(var(--abyss-raised)) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+  border: 1px solid rgba(var(--abyss-accent), 0.3) !important;
+  box-shadow: none !important;
+  border-radius: 999px !important;
+}
+
+/* 3. Search stacking — library-impl is later in the DOM than the header menu.
+      Keep the chrome header above the library; strip search stacking contexts. */
+ak-interface-user::part(page__header) {
+  position: relative !important;
+  z-index: 500 !important;
+  overflow: visible !important;
+}
+html:has(ak-interface-user) ak-nav-buttons,
+html:has(ak-interface-user) ak-user-switcher {
+  position: relative;
+  z-index: 2;
+}
+html:has(ak-interface-user) ak-library-impl,
+html:has(ak-interface-user) ak-user-settings {
+  position: relative;
+  z-index: 0;
+}
+ak-library-impl::part(search-input) {
+  position: relative !important;
+  z-index: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  isolation: auto !important;
+  filter: none !important;
+}
+:host(ak-library-impl) .pf-c-page__header,
+:host(ak-library-impl) search,
+:host(ak-library-impl) #application-search-form,
+:host(ak-library-impl) #application-search-input,
+:host(ak-library-impl) [part="search-input"] {
+  position: relative;
+  z-index: 0 !important;
+  isolation: auto;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+:host(ak-user-switcher) [part="menu"],
+:host(ak-dropdown) .pf-c-dropdown__menu {
+  z-index: 800 !important;
+}
+
+/* 4. Notification drawer — internals have no CSS parts. Push tokens onto the
+      host (inherit) and restyle from :host. */
+html:has(ak-interface-user) ak-notification-drawer {
+  background: rgba(var(--abyss-glass-tint), 0.94) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  --pf-c-notification-drawer--BackgroundColor: transparent;
+  --pf-c-notification-drawer__header--BackgroundColor: rgba(var(--abyss-void), 0.35);
+  --pf-c-notification-drawer__list-item--BorderBottomColor: rgba(var(--abyss-accent), 0.1);
+  --pf-c-notification-drawer__header-status--Color: rgba(var(--abyss-accent), 0.62);
+  --ak-dark-background: rgb(var(--abyss-raised));
+  --ak-dark-background-lighter: rgba(var(--abyss-glass-tint), 0.9);
+  --ak-dark-foreground: rgb(var(--abyss-accent));
+  --pf-global--BackgroundColor--100: rgb(var(--abyss-raised));
+  --pf-global--BackgroundColor--200: rgb(var(--abyss-void));
+  --pf-global--Color--100: rgb(var(--abyss-accent));
+  --pf-global--Color--200: rgb(var(--abyss-muted));
+}
+:host(ak-interface-user) .pf-c-drawer__panel {
+  background: rgba(var(--abyss-glass-tint), 0.94) !important;
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border-left: var(--abyss-hairline) !important;
+  color: rgb(var(--abyss-accent)) !important;
+  box-shadow: -18px 0 40px rgba(0, 0, 0, 0.4);
+}
+:host(ak-notification-drawer) {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+}
+:host(ak-notification-drawer) .pf-c-notification-drawer,
+:host(ak-notification-drawer) .pf-c-notification-drawer__body,
+:host(ak-notification-drawer) .pf-c-drawer__body {
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+:host(ak-notification-drawer) .pf-c-notification-drawer__header {
+  background: rgba(var(--abyss-void), 0.28) !important;
+  border-bottom: var(--abyss-hairline) !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+:host(ak-notification-drawer) .pf-c-notification-drawer__header-title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+}
+html:has(ak-interface-user) ak-empty-state {
+  --pf-c-empty-state__icon--Color: rgba(var(--abyss-accent), 0.38);
+  --pf-c-title--Color: rgb(var(--abyss-accent));
+  color: rgba(var(--abyss-accent), 0.72);
+  font-family: var(--abyss-font);
+  background: transparent;
+}
+:host-context(ak-notification-drawer),
+:host(ak-empty-state) {
+  --pf-c-empty-state__icon--Color: rgba(var(--abyss-accent), 0.38);
+  --pf-c-title--Color: rgb(var(--abyss-accent));
+  color: rgba(var(--abyss-accent), 0.72);
+  font-family: var(--abyss-font);
+  background: transparent;
+}
+
+/* 5. Dual MFA / token cards — hosts sit inside an already-titled .pf-c-card. */
+html:has(ak-interface-user) ak-user-settings-mfa,
+html:has(ak-interface-user) ak-user-token-list,
+html:has(ak-interface-user) ak-user-settings-source,
+html:has(ak-interface-user) ak-user-session-list,
+html:has(ak-interface-user) ak-user-consent-list {
+  display: block;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+ak-user-settings-mfa::part(table-container),
+ak-user-token-list::part(table-container),
+ak-user-session-list::part(table-container),
+ak-user-consent-list::part(table-container) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+/* 6. Settings tab rail — stretch came from PF .pf-m-vertical.pf-m-box filling
+      the flex/grid host. Size the exported rail, not the whole tabs host
+      (the host also wraps the tab panels). */
+html:has(ak-interface-user) ak-tabs {
+  align-items: flex-start !important;
+  align-content: flex-start !important;
+}
+ak-tabs::part(container),
+ak-tabs::part(column) {
+  align-self: flex-start !important;
+  height: max-content !important;
+  max-height: none !important;
+  flex: 0 0 auto !important;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  margin-top: 0 !important;
+  padding-block-start: 0.45rem !important;
+}
+
+/* -----------------------------------------------------------------------------
+   21. Enroll toggle + app-card kebab (live 2026.8)
+
+   Enroll is NOT a .pf-c-button — it's
+   `button.pf-m-primary.pf-c-dropdown__toggle` inside ak-user-settings-mfa
+   (ak-dropdown renders into the MFA shadow, no parts). White-on-white because
+   --pf-global--primary-color--100 is the Abyss accent.
+
+   The card kebab is an exported part wrapping a ⋮ glyph in a PF toggle that
+   still has caret padding, so the glyph sits off-center. Restyle via ::part.
+   ----------------------------------------------------------------------------- */
+
+/* Enroll — inherited tokens on the hosts (document CSS reaches the host box). */
+html:has(ak-interface-user) ak-user-settings-mfa {
+  --pf-c-dropdown__toggle--BackgroundColor: rgb(var(--abyss-accent));
+  --pf-c-dropdown__toggle--Color: rgb(var(--abyss-ink));
+  --pf-c-dropdown__toggle--hover--BackgroundColor: #ffffff;
+  --pf-c-dropdown__toggle--hover--Color: rgb(var(--abyss-ink));
+  --pf-c-dropdown__toggle--active--BackgroundColor: #ffffff;
+  --pf-c-dropdown__toggle--active--Color: rgb(var(--abyss-ink));
+  --pf-c-dropdown__toggle--m-primary--BackgroundColor: rgb(var(--abyss-accent));
+  --pf-c-dropdown__toggle--m-primary--Color: rgb(var(--abyss-ink));
+  --pf-c-dropdown__toggle--after--BorderWidth: 0px;
+  --pf-c-dropdown__toggle--after--BorderColor: transparent;
+  --pf-c-dropdown__toggle--before--BorderWidth: 0px;
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent));
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink));
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink));
+}
+
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary,
+:host(ak-user-settings-mfa) .pf-m-primary.pf-c-dropdown__toggle,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary {
+  background: rgb(var(--abyss-accent)) !important;
+  background-color: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: var(--abyss-radius) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.45rem !important;
+  min-height: 2.5rem !important;
+  padding: 0.5rem 1.05rem !important;
+  width: auto !important;
+}
+
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-text,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-text {
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Don't restyle the FA caret as a button — that made the white vertical bar.
+   Hide the glyph and draw a triangle instead. */
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-icon,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .fa-caret-down,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-icon {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  width: 0.55rem !important;
+  height: 0.35rem !important;
+  min-width: 0.55rem !important;
+  min-height: 0.35rem !important;
+  padding: 0 !important;
+  margin: 0 0 0 0.15rem !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  display: inline-block !important;
+  position: relative !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+}
+
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-icon::before,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .fa-caret-down::before,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-icon::before {
+  content: none !important;
+  display: none !important;
+}
+
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-icon::after,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary .fa-caret-down::after,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary .pf-c-dropdown__toggle-icon::after {
+  content: "" !important;
+  display: block !important;
+  width: 0 !important;
+  height: 0 !important;
+  border-left: 0.28rem solid transparent !important;
+  border-right: 0.28rem solid transparent !important;
+  border-top: 0.34rem solid rgb(var(--abyss-ink)) !important;
+  border-bottom: 0 !important;
+  background: transparent !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -35%);
+}
+
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary:hover,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary:hover {
+  background: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+}
+
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary::before,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary::after,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary::before,
+:host(ak-dropdown) .pf-c-dropdown__toggle.pf-m-primary::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+/* Kebab — exported parts, so document CSS actually paints on live 2026.8. */
+ak-library-impl::part(card-header-actions) {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+ak-library-impl::part(card-header-actions-button) {
+  --pf-c-dropdown__toggle--MinHeight: 2rem;
+  width: 2rem !important;
+  height: 2rem !important;
+  min-width: 2rem !important;
+  min-height: 2rem !important;
+  max-height: 2rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  color: rgb(var(--abyss-accent)) !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+ak-library-impl::part(card-header-actions-button)::before,
+ak-library-impl::part(card-header-actions-button)::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+ak-library-impl::part(card-header-actions-button):hover {
+  background: rgba(var(--abyss-accent), 0.14) !important;
+}
+
+ak-library-impl::part(card-header-actions-icon) {
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  width: 2rem !important;
+  height: 2rem !important;
+  display: block !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+ak-library-impl::part(card-header-actions-icon)::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.2rem;
+  height: 0.2rem;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgb(var(--abyss-accent));
+  box-shadow:
+    0 -0.38rem 0 rgb(var(--abyss-accent)),
+    0  0.38rem 0 rgb(var(--abyss-accent));
+}
+
+/* -----------------------------------------------------------------------------
+   22. Motion — interruptible transitions, quiet enter. Not bounce, not neon.
+   ----------------------------------------------------------------------------- */
+
+@keyframes abyss-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html:has(ak-flow-executor) .pf-c-login__main,
+:host(ak-flow-executor) .pf-c-login__main {
+  animation: abyss-enter 480ms var(--abyss-ease) backwards;
+}
+
+:host(ak-library-impl) [part="card-wrapper"],
+ak-library-impl::part(card-wrapper) {
+  animation: abyss-enter 420ms var(--abyss-ease) backwards;
+}
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(1) { animation-delay: 40ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(2) { animation-delay: 70ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(3) { animation-delay: 100ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(4) { animation-delay: 130ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(5) { animation-delay: 160ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(6) { animation-delay: 190ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(7) { animation-delay: 220ms; }
+:host(ak-library-impl) [part="card-wrapper"]:nth-child(8) { animation-delay: 250ms; }
+
+:host(ak-user-settings) .pf-c-card,
+:host(ak-tabs) .pf-c-tabs {
+  animation: abyss-enter 380ms var(--abyss-ease) backwards;
+}
+
+:host-context(ak-flow-executor) .pf-c-button,
+:host-context(ak-interface-user) .pf-c-button,
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary,
+:host(ak-nav-buttons) .pf-c-button,
+html:has(ak-flow-executor) .pf-c-button,
+html:has(ak-interface-user) .pf-c-button {
+  transition:
+    background 180ms var(--abyss-ease),
+    color 180ms var(--abyss-ease),
+    border-color 180ms var(--abyss-ease),
+    box-shadow 180ms var(--abyss-ease),
+    transform 150ms var(--abyss-ease-snappy);
+}
+
+:host-context(ak-flow-executor) .pf-c-button:active:not(:disabled),
+:host-context(ak-interface-user) .pf-c-button:active:not(:disabled),
+:host(ak-user-settings-mfa) .pf-c-dropdown__toggle.pf-m-primary:active,
+html:has(ak-flow-executor) .pf-c-button:active:not(:disabled),
+html:has(ak-interface-user) .pf-c-button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+:host(ak-tabs) .pf-c-tabs__link,
+:host(ak-tabs) [part="tab-button"],
+ak-tabs::part(tab-button) {
+  transition:
+    background 180ms var(--abyss-ease),
+    color 180ms var(--abyss-ease);
+}
+
+:host(ak-library-impl) [part="search-input"],
+ak-library-impl::part(search-input) {
+  transition:
+    border-color 180ms var(--abyss-ease),
+    box-shadow 180ms var(--abyss-ease),
+    background 180ms var(--abyss-ease);
+}
+
+:host(ak-nav-buttons) .pf-c-button,
+:host(ak-user-switcher) .pf-c-dropdown__toggle,
+ak-library-impl::part(card-header-actions-button) {
+  transition:
+    background 160ms var(--abyss-ease),
+    transform 150ms var(--abyss-ease-snappy);
+}
+
+/* Popover kebab menu — 2026.8 uses the Popover API. */
+ak-library-impl::part(card-header-actions-menu) {
+  transform-origin: top right;
+  transition:
+    opacity 180ms var(--abyss-ease),
+    transform 180ms var(--abyss-ease),
+    overlay 180ms allow-discrete,
+    display 180ms allow-discrete;
+}
+
+ak-library-impl::part(card-header-actions-menu):popover-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@starting-style {
+  ak-library-impl::part(card-header-actions-menu):popover-open {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+
+:host(ak-interface-user) .pf-c-drawer__panel {
+  transition:
+    transform 280ms var(--abyss-ease),
+    opacity 220ms var(--abyss-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(ak-flow-executor) .pf-c-login__main,
+  :host(ak-library-impl) [part="card-wrapper"],
+  :host(ak-user-settings) .pf-c-card,
+  :host(ak-tabs) .pf-c-tabs {
+    animation: none !important;
+  }
+}
