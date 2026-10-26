@@ -2,6 +2,7 @@
 # Render the login flow in headless Chrome and require the theme marker in the DOM.
 set -euo pipefail
 
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 URL="${AUTHENTIK_PREVIEW_URL:-http://127.0.0.1:9000/if/flow/default-authentication-flow/}"
 OUT="${AUTHENTIK_PREVIEW_PNG:-/tmp/authentik-login.png}"
 DOM="${AUTHENTIK_PREVIEW_DOM:-/tmp/authentik-login.html}"
@@ -21,6 +22,8 @@ fi
 
 mkdir -p "${PROFILE}"
 rm -f "${DOM}" "${OUT}"
+
+python3 "${ROOT}/.scripts/authentik/api.py" features
 
 echo "Rendering ${URL}"
 # Chrome often stays up on the DevTools port after writing the screenshot, so a
