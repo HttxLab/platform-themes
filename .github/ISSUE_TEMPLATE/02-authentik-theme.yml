@@ -1,0 +1,304 @@
+name: Authentik theme issue
+description: Report a visual or layout problem on a flow or user page using the Authentik theme.
+title: "[Authentik]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form is for the Authentik theme in `authentik/style.css`.
+
+        The theme styles user-facing screens: login and other flows (`ak-flow-executor`) and the user library (`ak-interface-user`, `/if/user/`). It does not style the admin interface (`ak-interface-admin`). To ask for admin coverage, or for a new variable, use **Theme change or new variable**.
+
+        The theme targets Authentik 2026.8. Brand CSS is copied into open shadow roots. A selector that starts from `html:has(ak-flow-executor)` does not match inside a native shadow tree, so the custom element that owns the control matters.
+
+        The page URL, whether you are an admin, and a screenshot are required.
+
+        Do not include passwords, TOTP secrets, session cookies, or API tokens.
+
+  - type: input
+    id: url
+    attributes:
+      label: URL where it happened
+      description: Full address, including the path. Remove tokens. A redacted hostname is fine if the path stays, for example /if/flow/default-authentication-flow/ or /if/user/.
+      placeholder: https://auth.example/if/flow/default-authentication-flow/
+    validations:
+      required: true
+
+  - type: dropdown
+    id: admin
+    attributes:
+      label: Are you an admin?
+      description: Admins can edit Brand → Branding → Custom CSS and open screens other people cannot. The admin UI itself is outside this theme.
+      options:
+        - "Yes"
+        - "No"
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Authentik version
+      description: Admin → About, or the image tag of the server. This theme is written for 2026.8. Other versions use different shadow DOM.
+      placeholder: 2026.8.5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surfaces
+    attributes:
+      label: What looks wrong?
+      description: Select every part that is affected. The narrow flow layout starts below 35rem (560px).
+      multiple: true
+      options:
+        - Login card, background, logo, or type
+        - Identification (username)
+        - Password field or reveal button
+        - Remember me or stay signed in
+        - TOTP or another MFA prompt
+        - WebAuthn, security key, or passwordless
+        - Captcha or Turnstile
+        - Consent
+        - Locale picker
+        - Error or alert
+        - Secondary button or another authentication method
+        - User library or application tiles
+        - User header, menu, or notifications
+        - User settings
+        - Narrow layout (under 35rem)
+        - Admin interface (this theme does not style it)
+        - Something else
+    validations:
+      required: true
+
+  - type: dropdown
+    id: color-mode
+    attributes:
+      label: Brand theme mode
+      description: System → Brands → theme. The theme forces Abyss colors on user-facing pages even when the brand is Light or Automatic, so the setting still matters.
+      options:
+        - Dark
+        - Light
+        - Automatic
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Name the control and what is wrong with it (color, spacing, invisible text, overlap, motion), and which stage you were on.
+      placeholder: The security-key button label is white on a white button during identification.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should it look like?
+      description: The result you expected from this theme.
+    validations:
+      required: true
+
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: A shot of the broken screen. Add a short recording when the problem is hover or motion, and a second shot with the brand Custom CSS cleared when you have one.
+    validations:
+      required: true
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.webm"
+
+  - type: markdown
+    attributes:
+      value: |
+        ### How the theme is installed
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How is the CSS applied?
+      description: The theme is meant to be pasted into the brand's Custom CSS (branding_custom_css).
+      options:
+        - Whole file in the brand Custom CSS field
+        - Only part of the file
+        - Injected outside the brand
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme-source
+    attributes:
+      label: Did you edit the theme?
+      options:
+        - Unmodified file from this repository
+        - Changed :root variables only
+        - Changed other rules too
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: theme-revision
+    attributes:
+      label: Theme revision
+      description: Commit, tag, or the date you copied authentik/style.css. Leave this blank if you do not know.
+      placeholder: main @ 2026-10-26
+
+  - type: textarea
+    id: overrides
+    attributes:
+      label: Edits you made
+      description: If you changed the file, paste the :root block or a short diff. Color tokens are three channels (245, 245, 247), not a hex color. Skip this when the file is unmodified.
+      render: css
+
+  - type: input
+    id: brand
+    attributes:
+      label: Brand
+      description: The brand this CSS is attached to. CSS is stored per brand.
+      placeholder: Default
+
+  - type: input
+    id: flow
+    attributes:
+      label: Flow slug
+      description: The path segment after /if/flow/. Leave this blank for the user library.
+      placeholder: default-authentication-flow
+
+  - type: input
+    id: locale
+    attributes:
+      label: Locale
+      description: The language selected in the flow. Long translations can overflow the card.
+      placeholder: en
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Environment
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser-detail
+    attributes:
+      label: Browser version, operating system, zoom, and window width
+      description: Zoom, and a window narrower than 35rem, change the flow card.
+      placeholder: Firefox 133, Fedora, 100% zoom, about 1400px wide
+    validations:
+      required: true
+
+  - type: dropdown
+    id: viewport
+    attributes:
+      label: Window size
+      options:
+        - Desktop
+        - Tablet
+        - Phone
+        - More than one
+    validations:
+      required: true
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Who sees it?
+      options:
+        - Every visitor of this brand
+        - Only while I am signed in
+        - Only my user account
+        - Only in my browser
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: started
+    attributes:
+      label: When did this start?
+      options:
+        - It has always looked like this with this theme
+        - After an Authentik upgrade
+        - After a theme update
+        - Not sure
+
+  - type: checkboxes
+    id: page-state
+    attributes:
+      label: What was on the screen?
+      description: Select any that apply.
+      options:
+        - label: Remember me or stay signed in was shown
+        - label: Turnstile or another captcha was shown
+        - label: A security-key or WebAuthn button was shown
+        - label: An error or alert was shown
+        - label: The brand has a background image
+        - label: The user library has application tiles
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      description: Select any that apply.
+      options:
+        - label: A browser extension restyles pages (Dark Reader, Stylus, or similar)
+        - label: I can reproduce this in a private window with extensions disabled
+        - label: With the brand Custom CSS cleared, the page still looks wrong
+        - label: Browser zoom is not 100%
+        - label: The operating system asks for reduced motion
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Extra detail
+
+        Optional. Name the custom element that owns the control (`ak-stage-password`, `ak-stage-authenticator-validate`, `ak-interface-user`, and so on). That is what decides whether a rule can see it.
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Leave this blank if opening the URL is enough. Do not paste passwords or TOTP codes.
+      placeholder: |
+        1. Open the default authentication flow
+        2. Enter a username and continue
+        3. Look at the password field
+
+  - type: textarea
+    id: dom
+    attributes:
+      label: Element from DevTools
+      description: Paste the custom-element tag, whether it is a native open shadow root, the opening tag of the broken node, and the computed color, background-color, and font-family.
+      render: html
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: Only errors that appear when the broken page loads. Skip font, favicon, and failed background-image warnings unless the missing image is the bug.
+      render: shell
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Another brand, a custom flow stage, or a detail the fields above missed.
