@@ -1,0 +1,6 @@
+authentik/.env
+authentik/data/
+authentik/certs/
+authentik/custom-templates/
+.scripts/**/__pycache__/
+*.log
