@@ -4166,3 +4166,25 @@ ak-library-impl::part(card-header-actions-menu):popover-open {
   padding: 0.35rem;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
+
+/* Admin entry is two links: "Admin interface" from 768px up, "Admin" below.
+   display:inline-flex !important on secondary buttons beat PatternFly's
+   pf-u-display-* utilities, so both stayed visible. */
+:host(ak-interface-user) a.pf-c-button.pf-u-display-none[href*="/if/admin/"],
+:host-context(ak-interface-user) a.pf-c-button.pf-u-display-none[href*="/if/admin/"] {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  :host(ak-interface-user) a.pf-c-button.pf-u-display-none-on-md[href*="/if/admin/"],
+  :host-context(ak-interface-user) a.pf-c-button.pf-u-display-none-on-md[href*="/if/admin/"] {
+    display: none !important;
+  }
+
+  :host(ak-interface-user) a.pf-c-button.pf-u-display-block-on-md[href*="/if/admin/"],
+  :host-context(ak-interface-user) a.pf-c-button.pf-u-display-block-on-md[href*="/if/admin/"] {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
