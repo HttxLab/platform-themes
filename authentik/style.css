@@ -54,7 +54,7 @@
   --abyss-glass: rgba(var(--abyss-glass-tint), 0.72);
   --abyss-glass-hover: rgba(var(--abyss-glass-tint), 0.88);
 
-  --abyss-wallpaper: url("/static/dist/assets/icons/rafa-connect/background.jpg");
+  --abyss-wallpaper: url("/static/dist/assets/icons/rafa-connect/background.jxl");
 }
 
 /* -----------------------------------------------------------------------------
