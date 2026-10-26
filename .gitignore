@@ -1,0 +1,5 @@
+authentik/.env
+authentik/data/
+authentik/certs/
+authentik/custom-templates/
+*.log
