@@ -1,0 +1,3 @@
+# Blank issues stay available for reports that are not a theme bug or a
+# theme change, such as the local Authentik preview scripts.
+blank_issues_enabled: true

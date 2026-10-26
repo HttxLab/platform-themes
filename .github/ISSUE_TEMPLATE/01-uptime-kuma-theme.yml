@@ -1,0 +1,274 @@
+name: Uptime Kuma theme issue
+description: Report a visual or layout problem on a status page using the Uptime Kuma theme.
+title: "[Uptime Kuma]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form is for the public status-page theme in `uptime-kuma/style.css`.
+
+        That file styles the status page: title, overall status, monitor groups, heartbeats, incidents, and footer. It does not style the Uptime Kuma admin dashboard. To ask for dashboard coverage, or for a new variable, use **Theme change or new variable**.
+
+        The page URL, whether you are an admin, and a screenshot are required. The other fields tell a person or an agent which rules to change.
+
+        Do not include passwords, session cookies, or API tokens.
+
+  - type: input
+    id: url
+    attributes:
+      label: URL where it happened
+      description: Full address, including the path. Remove tokens and invite codes. A redacted hostname is fine if the path stays.
+      placeholder: https://status.example/status/main
+    validations:
+      required: true
+
+  - type: dropdown
+    id: admin
+    attributes:
+      label: Are you an admin?
+      description: Admins can open the status-page editor and change Custom CSS. Visitors only see the public page.
+      options:
+        - "Yes"
+        - "No"
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Uptime Kuma version
+      description: Shown in the admin footer or under Settings. Current Kuma draws the heartbeat as a canvas; older releases use a row of DOM bars.
+      placeholder: "1.23.16"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surfaces
+    attributes:
+      label: What looks wrong?
+      description: Select every part that is affected. The narrow layout starts below 720px wide.
+      multiple: true
+      options:
+        - Page background, title, or logo
+        - Description
+        - Overall status
+        - Monitor group header
+        - Monitor row, badge, or tag
+        - Heartbeat, uptime bar, or tooltip
+        - Incident or maintenance notice
+        - Footer or links
+        - Buttons
+        - Narrow layout (under 720px)
+        - Admin dashboard (this theme does not style it)
+        - Something else
+    validations:
+      required: true
+
+  - type: dropdown
+    id: color-mode
+    attributes:
+      label: Status page color mode
+      description: The theme is built for Kuma's dark status page (body.dark).
+      options:
+        - Dark
+        - Light
+        - Auto or system
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Name the element and what is wrong with it (color, spacing, overlap, missing text, motion), and what you did just before.
+      placeholder: The monitor name is white on a white row after I expand the group.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should it look like?
+      description: The result you expected from this theme.
+    validations:
+      required: true
+
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: A shot of the broken page. Add a short recording when the problem is hover or motion, and a second shot with this theme's CSS removed when you have one.
+    validations:
+      required: true
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.webm"
+
+  - type: markdown
+    attributes:
+      value: |
+        ### How the theme is installed
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How is the CSS applied?
+      options:
+        - Whole file in the status page Custom CSS field
+        - Only part of the file
+        - Proxy or another stylesheet
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme-source
+    attributes:
+      label: Did you edit the theme?
+      options:
+        - Unmodified file from this repository
+        - Changed :root variables only
+        - Changed other rules too
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: theme-revision
+    attributes:
+      label: Theme revision
+      description: Commit, tag, or the date you copied uptime-kuma/style.css. Leave this blank if you do not know.
+      placeholder: main @ 2026-10-26
+
+  - type: textarea
+    id: overrides
+    attributes:
+      label: Edits you made
+      description: If you changed the file, paste the :root block or a short diff. Skip this when the file is unmodified.
+      render: css
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Environment
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: browser-detail
+    attributes:
+      label: Browser version, operating system, zoom, and window width
+      description: Zoom, and a window narrower than 720px, change the layout.
+      placeholder: Firefox 133, Fedora, 100% zoom, about 1400px wide
+    validations:
+      required: true
+
+  - type: dropdown
+    id: viewport
+    attributes:
+      label: Window size
+      options:
+        - Desktop
+        - Tablet
+        - Phone
+        - More than one
+    validations:
+      required: true
+
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Who sees it?
+      options:
+        - Every visitor of this status page
+        - Only while I am signed in
+        - Only in my browser
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: started
+    attributes:
+      label: When did this start?
+      options:
+        - It has always looked like this with this theme
+        - After an Uptime Kuma upgrade
+        - After a theme update
+        - Not sure
+
+  - type: checkboxes
+    id: page-state
+    attributes:
+      label: What was on the page?
+      description: Select any that apply.
+      options:
+        - label: Custom description or footer text
+        - label: A collapsed monitor group
+        - label: An expanded monitor group
+        - label: An incident banner
+        - label: A maintenance banner
+        - label: More than one monitor group
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      description: Select any that apply.
+      options:
+        - label: A browser extension restyles pages (Dark Reader, Stylus, or similar)
+        - label: I can reproduce this in a private window with extensions disabled
+        - label: With this theme's CSS removed, the page still looks wrong
+        - label: Browser zoom is not 100%
+        - label: The operating system asks for reduced motion
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Extra detail
+
+        Optional. The element tag is the fastest way to match a rule in `uptime-kuma/style.css`.
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Leave this blank if opening the URL is enough.
+      placeholder: |
+        1. Open the status page
+        2. Expand the Network group
+        3. Hover a monitor row
+
+  - type: textarea
+    id: dom
+    attributes:
+      label: Element from DevTools
+      description: Select the broken node. Paste its opening tag (tag name and class) and the computed color, background-color, and font-family.
+      render: html
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: Only errors that appear when the broken page loads. Skip font and favicon warnings.
+      render: shell
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Other CSS on the page, more than one status page, or a detail the fields above missed.

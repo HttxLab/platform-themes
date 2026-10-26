@@ -1,0 +1,144 @@
+name: Theme change or new variable
+description: Ask for a variable, a visual change, another screen, or a theme for a new app.
+title: "[Change]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for a change to a theme in this repository.
+
+        That includes a new `--abyss-*` variable, a different default, styling a screen the theme currently skips, and a theme for an application that is not here yet.
+
+        Check the `:root` block of the CSS file before asking for a token that already exists.
+
+        Uptime Kuma (`uptime-kuma/style.css`): `--abyss-accent`, `--abyss-fg`, `--abyss-glass-tint`, `--abyss-radius`, `--abyss-glass-blur`, `--abyss-ease`. Status colors are `--bs-primary`, `--bs-danger`, `--bs-warning`, and `--maintenance`.
+
+        Authentik (`authentik/style.css`): `--abyss-accent`, `--abyss-indicator`, `--abyss-glass-tint`, `--abyss-void`, `--abyss-raised`, `--abyss-ink`, `--abyss-muted`, `--abyss-danger`, `--abyss-ok`, `--abyss-radius`, `--abyss-radius-card`, `--abyss-radius-pill`, `--abyss-glass-blur`, `--abyss-backdrop-blur`, `--abyss-ease`, `--abyss-ease-snappy`, `--abyss-font`, `--abyss-wallpaper`.
+
+        Color tokens are three channels (`245, 245, 247`), not a hex color, so a caller can write `rgba(var(--abyss-accent), 0.5)`.
+
+        Do not include passwords, TOTP secrets, session cookies, or API tokens.
+
+  - type: dropdown
+    id: application
+    attributes:
+      label: Which theme?
+      options:
+        - Uptime Kuma (uptime-kuma/style.css)
+        - Authentik (authentik/style.css)
+        - Both current themes
+        - A new application
+    validations:
+      required: true
+
+  - type: input
+    id: new-application
+    attributes:
+      label: Application name
+      description: Fill this in when the request is a theme for an app that is not in the repository yet. Include the version you run, if you know it.
+      placeholder: Grafana 11.4
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change?
+      description: Select every kind that fits.
+      multiple: true
+      options:
+        - New CSS variable
+        - Change the default of an existing variable
+        - Visual change on a screen the theme already styles
+        - Style a screen the theme does not cover
+        - Theme for a new application
+        - Motion, focus, or responsive behavior
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: token
+    attributes:
+      label: Should this be a variable?
+      description: Choose "a --abyss-* token" when a self-hoster should be able to override the value without editing the rest of the file.
+      options:
+        - "Yes, expose it as a --abyss-* token"
+        - No, a fixed rule is enough
+        - Not sure
+
+  - type: input
+    id: variable
+    attributes:
+      label: Variable name
+      description: For a new token, or the token whose default should change. Use the --abyss- prefix unless you are changing a status color the app already defines.
+      placeholder: --abyss-example
+
+  - type: textarea
+    id: proposed-value
+    attributes:
+      label: Proposed value
+      description: "Colors: three channels, for example 245, 245, 247. Lengths, fonts, and easings can be a normal CSS value. Say which screens should read the token."
+      placeholder: "--abyss-example: 245, 245, 247;"
+      render: css
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What should change, and why?
+      description: The result you want, who it is for, and what is wrong or missing today.
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Example URL
+      description: A page that shows the gap, when you have one. Remove tokens. A redacted hostname is fine if the path stays.
+      placeholder: https://auth.example/if/user/
+
+  - type: dropdown
+    id: admin
+    attributes:
+      label: Are you an admin?
+      description: Admins can try a CSS change on the instance. Choose "Not tied to one instance" for a general request.
+      options:
+        - "Yes"
+        - "No"
+        - Not tied to one instance
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Application version
+      description: The Uptime Kuma or Authentik version this change has to work on. The Authentik theme targets 2026.8.
+      placeholder: Authentik 2026.8.5
+
+  - type: upload
+    id: screenshots
+    attributes:
+      label: Screenshots or a mock
+      description: The current screen, or a picture of the result you want. Optional.
+    validations:
+      required: false
+      accept: ".png,.jpg,.jpeg,.gif,.webp,.mp4,.webm"
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Select any that apply.
+      options:
+        - label: People who already override --abyss-* tokens should keep their current look
+        - label: The admin interface (Authentik) or the admin dashboard (Uptime Kuma) should stay unstyled
+        - label: This has to work in the light brand theme or a light status page
+        - label: This has to work on a phone-width window
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: Locale, brand, a screen the theme must not change, or a workaround you use today.
