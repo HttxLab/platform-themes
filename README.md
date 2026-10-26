@@ -1,6 +1,16 @@
 # platform-themes
 A collection of CSS themes for different applications so looks stay consistent and easy to reuse.
 
+## Note
+
+Commit messages and pull request titles follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary):
+
+```
+<type>[optional scope]: <description>
+```
+
+Use a type such as `feat`, `fix`, or `docs`, an optional scope such as `authentik`, and a short description. The same first line is the pull request title.
+
 ## Trying the Authentik theme
 
 Docker and Docker Compose are required. From the repository root:
