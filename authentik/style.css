@@ -4002,3 +4002,167 @@ ak-library-impl::part(card-header-actions-menu):popover-open {
     animation: none !important;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   23. Reported gaps (2026.8)
+
+   Permission denied is the Django login shell (policies/denied.html). It has
+   .pf-c-login and no ak-flow-executor, so the flow button rules never match.
+   .pf-c-login still recolors --pf-global--primary-color--100 to the near-white
+   accent, and PatternFly keeps primary label text white: a blank slab, with
+   4px under the last card section because that page has no main footer.
+
+   User settings zero the tab panel's top padding so the rail and the cards
+   share one top edge. That edge was the header. Pad the page that wraps both,
+   not the panel, or the rail and the cards stop lining up. The same zeroed
+   --pf-c-page__main-section--PaddingTop inherits into delete dialogs: their
+   header is also .pf-c-page__main-section, so "Delete Session(s)" sat on the
+   modal's top border.
+
+   ak-locale-select keeps its <select> in an open shadow. Document option and
+   ::picker rules never reach it. The closed pill is dark; the native popup
+   stays light and inherits the light label color.
+   ----------------------------------------------------------------------------- */
+
+.pf-c-login .pf-c-login__main-body:has(#ak-back-home) {
+  padding-bottom: 1.75rem !important;
+}
+
+.pf-c-login .pf-c-login__main-body:has(#ak-back-home) .pf-c-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+}
+
+.pf-c-login .pf-c-login__main-body:has(#ak-back-home) h1.pf-c-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 !important;
+  font-family: var(--abyss-font) !important;
+  font-size: 1.0625rem !important;
+  font-weight: 500 !important;
+  line-height: 1.35 !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+.pf-c-login .pf-c-login__main-body:has(#ak-back-home) h1.pf-c-title .pf-icon {
+  color: rgb(var(--abyss-danger)) !important;
+}
+
+.pf-c-login #ak-back-home,
+.pf-c-login .pf-c-login__main a.pf-c-button.pf-m-primary,
+.pf-c-login .pf-c-login__main .pf-c-button.pf-m-primary {
+  --pf-c-button--m-primary--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--BackgroundColor: rgb(var(--abyss-accent)) !important;
+  --pf-c-button--m-primary--hover--Color: rgb(var(--abyss-ink)) !important;
+  --pf-c-button--m-primary--hover--BackgroundColor: #ffffff !important;
+  --pf-c-button--after--BorderWidth: 0px !important;
+  --pf-c-button--after--BorderColor: transparent !important;
+  background: rgb(var(--abyss-accent)) !important;
+  background-color: rgb(var(--abyss-accent)) !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+  border: 0 !important;
+  border-radius: var(--abyss-radius) !important;
+  box-shadow: 0 0 24px 2px rgba(var(--abyss-accent), 0.12) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+  font-size: 0.9375rem !important;
+  min-height: 2.75rem !important;
+  padding: 0.65rem 1.15rem !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pf-c-login #ak-back-home::after,
+.pf-c-login .pf-c-login__main a.pf-c-button.pf-m-primary::after,
+.pf-c-login .pf-c-login__main .pf-c-button.pf-m-primary::after {
+  content: none !important;
+  border: 0 !important;
+  display: none !important;
+}
+
+.pf-c-login #ak-back-home:hover,
+.pf-c-login .pf-c-login__main a.pf-c-button.pf-m-primary:hover,
+.pf-c-login .pf-c-login__main .pf-c-button.pf-m-primary:hover {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: rgb(var(--abyss-ink)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-ink)) !important;
+}
+
+/* One inset under the header, shared by the settings rail and the cards. */
+:host(ak-user-settings) .pf-c-page__main {
+  padding-top: 1.5rem !important;
+}
+
+:host(ak-forms-delete-bulk) .pf-c-modal-box__header,
+:host(ak-modal-button) .pf-c-modal-box__header,
+:host(ak-forms-modal) .pf-c-modal-box__header,
+:host-context(ak-interface-user) .pf-c-modal-box__header {
+  --pf-c-page__main-section--PaddingTop: 1.35rem;
+  --pf-c-modal-box__header--PaddingTop: 1.35rem;
+  padding: 1.35rem 3.25rem 0.85rem 1.5rem !important;
+  background: transparent !important;
+  color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-forms-delete-bulk) .pf-c-modal-box__header .pf-c-title,
+:host(ak-modal-button) .pf-c-modal-box__header .pf-c-title,
+:host(ak-forms-modal) .pf-c-modal-box__header .pf-c-title,
+:host-context(ak-interface-user) .pf-c-modal-box__header .pf-c-title {
+  color: rgb(var(--abyss-accent)) !important;
+  font-family: var(--abyss-font) !important;
+  font-weight: 600 !important;
+}
+
+:host(ak-forms-delete-bulk) .pf-c-modal-box > .pf-c-button.pf-m-plain,
+:host(ak-modal-button) .pf-c-modal-box > .pf-c-button.pf-m-plain,
+:host(ak-forms-modal) .pf-c-modal-box > .pf-c-button.pf-m-plain {
+  top: 1.15rem !important;
+  inset-inline-end: 1rem !important;
+  color: rgb(var(--abyss-accent)) !important;
+  -webkit-text-fill-color: rgb(var(--abyss-accent)) !important;
+}
+
+:host(ak-locale-select) select,
+:host(ak-locale-select) [part="select"] {
+  color-scheme: dark !important;
+}
+
+:host(ak-locale-select) select:open,
+:host(ak-locale-select) [part="select"]:open {
+  --ak-c-locale-select--BackgroundColor: rgb(20, 20, 20) !important;
+  --ak-c-locale-select--Color: rgb(245, 245, 247) !important;
+  color: rgb(245, 245, 247) !important;
+  color-scheme: dark !important;
+}
+
+:host(ak-locale-select) option {
+  color-scheme: dark !important;
+  background-color: rgb(20, 20, 20) !important;
+  color: rgb(245, 245, 247) !important;
+}
+
+:host(ak-locale-select) option:checked,
+:host(ak-locale-select) option:hover {
+  background-color: rgb(55, 55, 55) !important;
+  color: #ffffff !important;
+}
+
+:host(ak-locale-select) select::picker(select),
+:host(ak-locale-select) [part="select"]::picker(select) {
+  color-scheme: dark;
+  background: rgb(20, 20, 20) !important;
+  background-color: rgb(20, 20, 20) !important;
+  color: rgb(245, 245, 247) !important;
+  border: 1px solid rgba(245, 245, 247, 0.18);
+  border-radius: 12px;
+  padding: 0.35rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
