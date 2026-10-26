@@ -68,7 +68,8 @@ start_dockerd() {
   fi
   sudo rm -f /var/run/docker.pid /var/run/docker.sock /tmp/dockerd.log
   # setsid detaches dockerd from this shell so exit does not SIGHUP the daemon.
-  # Remove the log first: /tmp sticky + fs.protected_regular blocks root from truncating another user's file.
+  # Remove the log first: /tmp is sticky, and the kernel blocks root from
+  # truncating a file in /tmp that another user already created.
   sudo sh -c 'setsid dockerd >/tmp/dockerd.log 2>&1 </dev/null &'
   local attempt
   for attempt in $(seq 1 90); do

@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Open the login flow in headless Chrome and confirm the theme CSS reached the page.
+# Render the login flow in headless Chrome and require the theme marker in the DOM.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 URL="${AUTHENTIK_PREVIEW_URL:-http://127.0.0.1:9000/if/flow/default-authentication-flow/}"
 OUT="${AUTHENTIK_PREVIEW_PNG:-/tmp/authentik-login.png}"
 DOM="${AUTHENTIK_PREVIEW_DOM:-/tmp/authentik-login.html}"
@@ -24,7 +23,8 @@ mkdir -p "${PROFILE}"
 rm -f "${DOM}" "${OUT}"
 
 echo "Rendering ${URL}"
-# Headless Chrome can keep the DevTools port open after the screenshot is written.
+# Chrome often stays up on the DevTools port after writing the screenshot, so a
+# timeout is the normal exit. The files are checked below.
 export DBUS_SESSION_BUS_ADDRESS=/dev/null
 set +e
 timeout --signal=KILL 35 "${CHROME}" \

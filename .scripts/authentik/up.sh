@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Start the local Authentik stack and wait until the API accepts the bootstrap token.
+# Start local Authentik and wait until the default brand exists.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ENV_FILE="${ROOT}/authentik/.env"
 COMPOSE=(
   docker compose
@@ -12,6 +12,7 @@ COMPOSE=(
 )
 
 generate_env() {
+  # Hex only, so Compose does not treat a character in the secret as interpolation.
   umask 077
   cat >"${ENV_FILE}" <<EOF
 PG_PASS=$(openssl rand -hex 24)
@@ -31,7 +32,7 @@ EOF
 }
 
 if ! docker info >/dev/null 2>&1; then
-  echo "error: Docker is not running. Start it with scripts/cloud-agent-start.sh or a fresh agent boot." >&2
+  echo "error: Docker is not running. Start Docker, then run this again." >&2
   exit 1
 fi
 
@@ -43,6 +44,6 @@ mkdir -p "${ROOT}/authentik/data" "${ROOT}/authentik/certs" "${ROOT}/authentik/c
 
 echo "Starting Authentik (postgres, server, worker)..."
 "${COMPOSE[@]}" up -d --remove-orphans --quiet-pull
-python3 "${ROOT}/scripts/authentik_ctl.py" wait --timeout 240
+python3 "${ROOT}/.scripts/authentik/api.py" wait --timeout 240
 echo "Authentik UI: http://127.0.0.1:9000/if/flow/default-authentication-flow/"
 echo "Admin user: akadmin. Password: authentik/.env key AUTHENTIK_BOOTSTRAP_PASSWORD."
